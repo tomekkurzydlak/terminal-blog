@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/site/index.html" },
+    { "source": "/posts/:match*", "destination": "/site/posts/:match*" },
+    { "source": "/static/:match*", "destination": "/static/:match*" }
+  ]
+}

@@ -1,0 +1,5 @@
+posts/
+templates/
+generate_site.py
+*.pyc
+__pycache__/
