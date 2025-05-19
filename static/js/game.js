@@ -1,5 +1,11 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
+
+const dinoImg = new Image();
+const cactusImg = new Image();
+dinoImg.src = "/static/img/dino.png";
+cactusImg.src = "/static/img/cactus.png";
 
 let dino = { x: 50, y: 110, vy: 0, gravity: 0.6, jumpPower: -10, isJumping: false };
 let obstacles = [];
@@ -16,19 +22,17 @@ document.addEventListener("keydown", function (e) {
 });
 
 function drawDino() {
-    ctx.fillStyle = "#33ff33";
-    ctx.fillRect(dino.x, dino.y, 20, 20);
+    ctx.drawImage(dinoImg, dino.x, dino.y, 70, 90);
 }
 
 function drawObstacle(obs) {
-    ctx.fillStyle = "#888";
-    ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+    ctx.drawImage(cactusImg, obs.x, obs.y, 50, 80);
 }
 
 function drawScore() {
     ctx.fillStyle = "#33ff33";
     ctx.font = "14px monospace";
-    ctx.fillText("Score: " + score, 10, 20);
+    ctx.fillText("Score: " + score, 40, 65);
 }
 
 function update() {
@@ -36,7 +40,6 @@ function update() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Dino movement
     dino.y += dino.vy;
     dino.vy += dino.gravity;
 
@@ -45,17 +48,15 @@ function update() {
         dino.isJumping = false;
     }
 
-    // Obstacles
     if (frame % 100 === 0) {
-        let height = 30 + Math.random() * 20;
-        obstacles.push({ x: canvas.width, y: 150 - height, w: 10, h: height });
+        let height = 30;
+        obstacles.push({ x: canvas.width, y: 120, w: 15, h: height });
     }
 
     obstacles.forEach(obs => {
         obs.x -= 4;
         drawObstacle(obs);
 
-        // Collision
         if (
             dino.x < obs.x + obs.w &&
             dino.x + 20 > obs.x &&
@@ -74,12 +75,13 @@ function update() {
         score++;
         requestAnimationFrame(update);
     } else {
-        ctx.fillStyle = "#f00";
-        ctx.font = "16px monospace";
+        ctx.fillStyle = "#33ff33";
+        ctx.font = "14px monospace";
         ctx.fillText("GAME OVER - press Enter to restart", 140, 75);
     }
 
     frame++;
 }
 
-update();
+// Start game when images are ready
+dinoImg.onload = () => cactusImg.onload = update;
