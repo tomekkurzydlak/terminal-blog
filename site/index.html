@@ -16,13 +16,25 @@
 - <a href="/posts/hello_world.html">Hello World</a>
         </div>
     </div>
-    <div class="terminal-window">
-    <div class="terminal-bar">
-        <span>~/game/dino.js</span>
-        <span class="terminalclose"></span>
-    </div>
-    <canvas id="gameCanvas" width="600" height="180" style="display: block;"></canvas>
-    </div>
-    <script src="/static/js/game.js"></script>
+
+    <!-- Terminal -->
+<div id="terminal" class="terminal-window">
+  <div class="terminal-bar">
+    <span>~/terminal</span>
+    <span class="terminal-close"></span>
+  </div>
+
+  <div id="terminal-content" style="padding: 10px; height: 160px; overflow-y: auto;"></div>
+
+  <!-- Game Canvas (ukryty na start) -->
+  <div id="game-container" style="display: none; padding: 10px 10px 0;">
+    <canvas id="gameCanvas" width="600" height="200" style="background: #1e1e1e;"></canvas>
+  </div>
+</div>
+
+<!-- Terminal logic -->
+<script src="/static/js/terminal.js"></script>
+
+
 </body>
 </html>
