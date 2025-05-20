@@ -17,10 +17,19 @@ let commandBuffer = "";
 
 // === Terminal UI ===
 
+//function printToTerminal(text) {
+//    terminalContent.innerHTML += `<div>${text}</div>`;
+//    terminalContent.scrollTop = terminalContent.scrollHeight;
+//}
+
 function printToTerminal(text) {
-    terminalContent.innerHTML += `<div>${text}</div>`;
+    const lines = text.split('\n');
+    lines.forEach(line => {
+        terminalContent.innerHTML += `<div>${line}</div>`;
+    });
     terminalContent.scrollTop = terminalContent.scrollHeight;
 }
+
 
 //function showPrompt() {
 //    const username = typeof getUser === "function" ? getUser() : "guest";
@@ -196,6 +205,9 @@ function handleCommand(cmd) {
 
     } else if (args[0] === "ps") {
         runPs();
+
+    } else if (args[0] === "telnet") {
+        runTelnet(args[1]);
 
     } else if (args[0] === "top") {
         runTop();
@@ -493,6 +505,80 @@ ${timestamp} (1.2 MB/s) - '${filename}' not saved: No space left on device`);
 }
 
 
+function runTelnet(host) {
+    if (!host) {
+        printToTerminal("telnet: missing address");
+        showPrompt();
+        return;
+    }
+    if (host === "towel.blinkenlights.nl") {
+        printToTerminal("Trying towel.blinkenlights.nl... Connected.");
+        setTimeout(() => {
+            printToTerminal("Escape character is '^]'.");
+            setTimeout(() => {
+                printToTerminal("Welcome to ASCII Star Wars Episode IV...");
+                printToTerminal(String.raw`
+      .-"""-.
+     / .===. \
+     \/ 6 6 \/
+     ( \___/ )
+ ___ooo__V__ooo___
+|                 |
+|   R2-D2 ONLINE  |
+|_________________|
+     ||   ||
+     ||___||
+    [_______]
+
+     ||   ||      /\_/\
+     ||   ||     ( o.o )  ← C-3PO
+     ||   ||      > ^ <
+
+  "They've shut down the main reactor.
+    We'll be destroyed for sure."
+                `);
+                setTimeout(() => {
+                    printToTerminal(String.raw`
+                      _.-._
+                    ({  o o })
+                   /  \_Y_/  \
+                  (    (_)    )
+                   \  '\_/'  /
+                    \_______/
+                     /   \
+                    |     ||
+                    ||___|||
+                    ||   |||
+                    VV   VV
+
+"Help me, Obi-Wan Kenobi. You're my only hope."
+                    `);
+                    setTimeout(() => {
+                        printToTerminal(String.raw`
+    *         .              .        .           .       .
+       .       .      .     *        .         .      .        *
+     .         .      .     .         .  .        *         .
+   .       *       .       .    .        .    *         *        .
+
+      A long time ago in a terminal far,
+                     far away...
+                        `);
+                        setTimeout(() => {
+                            printToTerminal("(stream terminated — premium required to continue)");
+                            showPrompt();
+                        }, 2500);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }, 1000);
+    } else {
+        printToTerminal(`Trying ${host}...`);
+        setTimeout(() => {
+            printToTerminal(`telnet: Unable to connect to remote host: Connection timed out`);
+            showPrompt();
+        }, 1000);
+    }
+}
 
 
 // === Init ===
