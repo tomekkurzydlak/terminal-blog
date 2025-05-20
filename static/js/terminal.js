@@ -63,51 +63,6 @@ function updateCurrentLine() {
     }
 }
 
-//function handleCommand(cmd) {
-//    if (cmd === "run dino") {
-//        printToTerminal("Launching dino game...");
-//        localStorage.setItem("runDinoAfterReload", "true");
-//
-//        setTimeout(() => {
-//            terminalActive = false;
-//            gameActive = true;
-//            gameContainer.style.display = "block";
-//
-//            // Dołącz game.js tylko raz
-//            if (!document.getElementById("game-script")) {
-//                const script = document.createElement("script");
-//                script.src = "/static/js/game.js"; // 🔁 Dostosuj jeśli inna ścieżka
-//                script.id = "game-script";
-//                script.onload = () => {
-//                    console.log("✅ Game loaded.");
-//                };
-//                script.onerror = () => {
-//                    console.error("❌ Failed to load game.js");
-//                    printToTerminal("Failed to load game.");
-//                };
-//                document.body.appendChild(script);
-//            } else {
-//                printToTerminal("Game already loaded.");
-//            }
-//        }, 500);
-//    } else if (cmd === "clear") {
-//        clearTerminal();
-//        showPrompt();
-//    } else if (cmd === "help") {
-//        printToTerminal("Available commands:");
-//        printToTerminal("- run dino: Start the dino game");
-//        printToTerminal("- clear: Clear terminal");
-//        printToTerminal("- help: Show this help message");
-//        showPrompt();
-//    } else if (cmd === "") {
-//        showPrompt();
-//    } else {
-//        printToTerminal(`Command not found: ${cmd}`);
-//        showPrompt();
-//    }
-//    commandBuffer = "";
-//}
-
 function handleCommand(cmd) {
     const args = cmd.split(" ");
 if (cmd === "run dino") {
@@ -119,14 +74,14 @@ if (cmd === "run dino") {
         script.src = "/static/js/game.js";
         script.id = "game-script";
         script.onload = () => {
-            console.log("✅ Game loaded.");
+            console.log("Game loaded.");
             terminalActive = false;
             gameActive = true;
             gameContainer.style.display = "block";
-            if (typeof startGame === "function") startGame(); // <- zapewnij tę funkcję w game.js
+            if (typeof startGame === "function") startGame();
         };
         script.onerror = () => {
-            console.error("❌ Failed to load game.js");
+            console.error("Failed to load game.js");
             printToTerminal("Failed to load game.");
             showPrompt();
         };
@@ -141,21 +96,65 @@ if (cmd === "run dino") {
  else if (cmd === "clear") {
         clearTerminal();
         showPrompt();
-    } else if (cmd === "help") {
-        printToTerminal("Available commands:");
-        printToTerminal("- run dino: Start the dino game");
-        printToTerminal("- clear: Clear terminal");
-        printToTerminal("- help: Show this help message");
-        printToTerminal("- pwd: Show current directory");
-        printToTerminal("- ls: List files");
-        printToTerminal("- cat <filename>: Display file contents");
-        printToTerminal("- whoami: Show current user");
-        printToTerminal("- date: Show current date");
-        printToTerminal("- rm -rf /");
-        showPrompt();
+
+} else if (cmd === "help") {
+    printToTerminal("Available commands:");
+
+    printToTerminal("\n");
+    printToTerminal("System & Files:");
+    printToTerminal("  ls                    list directory contents");
+    printToTerminal("  cat <file>            display file contents");
+    printToTerminal("  cd <dir>              change directory");
+    printToTerminal("  rm <file>             remove file");
+    printToTerminal("  mkdir <dir>           make directory");
+    printToTerminal("  touch <file>          create empty file");
+
+    printToTerminal("\n");
+    printToTerminal("Networking:");
+    printToTerminal("  curl <url>            transfer data from URL");
+    printToTerminal("  wget <url>            download file");
+    printToTerminal("  telnet <host>         open telnet connection");
+    printToTerminal("  ping <host>           test host reachability");
+    printToTerminal("  ssh <host>            connect via SSH");
+
+    printToTerminal("\n");
+    printToTerminal("Identity & Environment:");
+    printToTerminal("  whoami                show current user");
+    printToTerminal("  name <name>           set user name");
+    printToTerminal("  pwd                   print working directory");
+    printToTerminal("  env                   display environment");
+
+    printToTerminal("\n");
+    printToTerminal("Processes & System:");
+    printToTerminal("  ps                    list active processes");
+    printToTerminal("  top                   display real-time process info");
+    printToTerminal("  uptime                show system uptime");
+    printToTerminal("  who                   show who is logged in");
+
+    printToTerminal("\n");
+    printToTerminal("Misc:");
+    printToTerminal("  sudo <cmd>            execute command as superuser");
+    printToTerminal("  echo <text>           display line of text");
+    printToTerminal("  history               show command history");
+    printToTerminal("  exit                  terminate session");
+
+    showPrompt();
+
+
     } else if (cmd === "pwd") {
         printToTerminal("/home/guest");
         showPrompt();
+
+    } else if (cmd === "cd /dev/deep/core") {
+    printToTerminal("You feel a strange shift in reality...");
+    setTimeout(() => {
+        printToTerminal("Accessing core memory structures...");
+    }, 800);
+    setTimeout(() => {
+        printToTerminal("You shouldn't be here.");
+        showPrompt();
+    }, 2000);
+
     } else if (args[0] === "cd") {
         if (!args[1]) {
             printToTerminal("cd: missing operand");
@@ -250,20 +249,74 @@ if (cmd === "run dino") {
     } else if (cmd === "ls -la" || cmd === "ls -al") {
     runLs(["-la"]);
 
-    } else if (args[0] === "cat" && args[1]) {
-        const filename = args[1];
-        const fakeFiles = {
-            "game.js": "// dino game code...",
-            "secret.txt": "The cake is a lie.",
-            "unicorn.log": "🦄 Unicorn spotted at 03:14AM near the moon.",
-            "notes.txt": "1.Buy milk\n2.Write code\n3.Escape the matrix"
-        };
-        if (fakeFiles[filename]) {
-            printToTerminal(fakeFiles[filename]);
+} else if (args[0] === "cat" && args[1]) {
+    const filename = args[1];
+    const fakeFiles = {
+        "game.js": `// to start the game, type 'run dino' into the terminal\n\n4A 53 20 64 69 6E 6F 2E 6A 73 20 76 31 2E 30\n66 75 6E 63 74 69 6F 6E 28 29 20 7B 0A 20 20\n2F 2F 20 67 61 6D 65 20 6C 6F 67 69 63 20 68\n65 72 65 0A 7D 0A 2F 2A 20 64 6F 6E 27 74 20\n6C 65 74 20 74 68 65 20 63`,
+        "secret.txt": `The cake is a lie.\nBut I dare you to try 'fortune' anyway.`,
+        "unicorn.log": `🦄 Unicorn spotted at 03:14AM near the moon.\nTransmission intercepted: "Help me telnet... you're my only hope." Blink blink...`,
+        "notes.txt": "1.Buy milk\n2.Write code\n3.Escape the matrix",
+        ".the_path": {
+            protected: true,
+            content: `ACCESS GRANTED.\nCoordinates received.\nDecode location: /dev/deep/core`
+        },
+        "/dev/deep/core": `*** CORE DUMP INTERFACE ONLINE ***
+        >>> memory: unstable
+        >>> threads: corrupted
+        >>> identity: uncertain
+
+        root@deep:/dev/core# echo "truth"
+        ...the system is watching.
+
+                        ▄▄▀▀▀▀▀▀▀▀▄▄
+                      ▄▀    ☠ ACCESS ☠ ▀▄
+                     █  THE CORE IS NOT  █
+                      ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+
+        You were not supposed to reach this depth.
+        Disconnect immediately.
+        `
+
+    };
+
+    const file = fakeFiles[filename];
+
+    if (file) {
+        // Jeśli to obiekt chroniony
+        if (typeof file === "object" && file.protected) {
+            printToTerminal("Access to this file is restricted.");
+            printToTerminal("Enter passphrase:");
+
+            let buffer = "";
+            terminalActive = false;
+
+            const listener = (e) => {
+                if (e.key === "Enter") {
+                    document.removeEventListener("keydown", listener);
+                    terminalActive = true;
+                    if (buffer.trim().toLowerCase() === "white_rabbit") {
+                        printToTerminal(file.content);
+                    } else {
+                        printToTerminal("Access denied.");
+                    }
+                    showPrompt();
+                } else if (e.key === "Backspace") {
+                    buffer = buffer.slice(0, -1);
+                } else if (e.key.length === 1) {
+                    buffer += e.key;
+                }
+            };
+
+            document.addEventListener("keydown", listener);
         } else {
-            printToTerminal(`cat: ${filename}: No such file`);
+            printToTerminal(file);
+            showPrompt();
         }
+    } else {
+        printToTerminal(`cat: ${filename}: No such file`);
         showPrompt();
+    }
+
 
     } else if (cmd === "whoami") {
         printToTerminal("guest");
@@ -294,7 +347,7 @@ if (cmd === "run dino") {
         runSudo();
     }   else if (cmd === "") {
         showPrompt();
-    } else if (cmd === "matrix" || cmd === "neo") {
+    } else if (cmd === "neo") {
     if (!document.getElementById("matrix-script")) {
         const script = document.createElement("script");
         script.src = "/static/js/matrix.js";
@@ -311,23 +364,6 @@ if (cmd === "run dino") {
     }
     commandBuffer = "";
 }
-
-
-//document.addEventListener("keydown", function(e) {
-//    if (terminalActive) {
-//        if (e.key === "Enter") {
-//            const cmd = commandBuffer.trim();
-//            printToTerminal(`$ ${cmd}`);
-//            handleCommand(cmd);
-//        } else if (e.key === "Backspace") {
-//            commandBuffer = commandBuffer.slice(0, -1);
-//            updateCurrentLine();
-//        } else if (e.key.length === 1) {
-//            commandBuffer += e.key;
-//            updateCurrentLine();
-//        }
-//    }
-//});
 
 document.addEventListener("keydown", function(e) {
     if (!terminalActive) return; // nie przechwytuj, jeśli gra aktywna
@@ -434,9 +470,15 @@ function runExit() {
 }
 
 function runHistory() {
-    printToTerminal("history: not available in simulation mode");
+    printToTerminal("  1  ls");
+    printToTerminal("  2  cat unicorn.log");
+    printToTerminal("  3  cat secret.txt");
+    printToTerminal("  4  ls -la");
+    printToTerminal("  5  cat game.js");
+    printToTerminal("  6  telnet towel.blinkenlights.nl");
     showPrompt();
 }
+
 
 function runPs() {
     printToTerminal("  PID TTY          TIME CMD");
@@ -472,7 +514,7 @@ function runLs(args = []) {
         printToTerminal("-rw-r--r--  1 guest guest   100 May 20 22:00 notes.txt");
         printToTerminal("-rw-r--r--  1 guest guest    80 May 20 22:00 secret.txt");
         printToTerminal("-rw-r--r--  1 guest guest    60 May 20 22:00 unicorn.log");
-        printToTerminal("-rw-------  1 guest guest    42 May 20 22:00 .hidden_config");
+        printToTerminal("-rw-------  1 guest guest    42 May 20 22:00 .the_path");
     } else {
         printToTerminal("game.js  index.html  notes.txt  secret.txt  unicorn.log");
     }
@@ -525,6 +567,11 @@ ${timestamp} (1.2 MB/s) - '${filename}' not saved: No space left on device`);
             }, 500);
         }, 500);
     }, 500);
+}
+
+function getRandomIp() {
+    const rand = () => Math.floor(Math.random() * 256);
+    return `${rand()}.${rand()}.${rand()}.${rand()}`;
 }
 
 
@@ -605,7 +652,30 @@ function runTelnet(host) {
 
 
 // === Init ===
-printToTerminal("Welcome to the terminal. Type `help` for available commands.");
+const now = new Date();
+const loginTimestamp = now.toString().split(" ").slice(0, 5).join(" ");
+const fakeIp = getRandomIp();
+const kernelVersion = "4.19.0-27-cloud-amd64 #1 SMP Bebian 4.19.316-1 (2024-06-25)";
+const hostName = "vps-2137jp2b";
+const welcomeMessages = [
+    "Hello, dear wanderer. Feel free to explore the system.",
+    "Welcome, traveler. The terminal awaits your curiosity.",
+    "Hi there. Type `help` if you're lost.",
+    "Greetings, observer. You have terminal access. Use it wisely.",
+    "User session initialized. Play around. Discover.",
+    "Permission granted. Interface unlocked. Proceed.",
+    "Hey stranger. The system is yours to explore.",
+    "Ah, a visitor. What brings you here, into the shell?",
+    "You're in. Look around, see what you can find.",
+    "Hello dear wanderer, the terminal awaits your curiosity. Use it wisely"
+];
+const randomWelcome = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+
+printToTerminal(randomWelcome + "\n");
+
+//printToTerminal(`Linux ${hostName} ${kernelVersion} x86_64\n`);
+printToTerminal(`Last login: ${loginTimestamp} from ${fakeIp}\n`);
+
 showPrompt();
 
 //window.addEventListener("DOMContentLoaded", () => {
