@@ -32,7 +32,8 @@ function drawObstacle(obs) {
 function drawScore() {
     ctx.fillStyle = "#33ff33";
     ctx.font = "14px monospace";
-    ctx.fillText("Score: " + score, 40, 65);
+    ctx.textAlign = "center";
+    ctx.fillText("Score: " + score, canvas.width / 2, canvas.height / 2 - 85);
 }
 
 function update() {
@@ -77,7 +78,8 @@ function update() {
     } else {
         ctx.fillStyle = "#33ff33";
         ctx.font = "14px monospace";
-        ctx.fillText("GAME OVER - press Enter to restart", 140, 75);
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER - press Enter to quit covered with shame and be forgotten", canvas.width / 2, canvas.height / 2 - 60);
     }
 
     frame++;
@@ -85,3 +87,14 @@ function update() {
 
 // Start game when images are ready
 dinoImg.onload = () => cactusImg.onload = update;
+
+function startGame() {
+    // zapewnia, że oba obrazki są gotowe
+    if (dinoImg.complete && cactusImg.complete) {
+        update(); // zaczynamy grę
+    } else {
+        // jeśli obrazki jeszcze się ładują, poczekaj na nie
+        dinoImg.onload = () => cactusImg.onload = update;
+    }
+}
+

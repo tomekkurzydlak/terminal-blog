@@ -110,30 +110,35 @@ function updateCurrentLine() {
 
 function handleCommand(cmd) {
     const args = cmd.split(" ");
-    if (cmd === "run dino") {
-        printToTerminal("Launching dino game...");
-        localStorage.setItem("runDinoAfterReload", "true");
+if (cmd === "run dino") {
+    printToTerminal("Launching dino game...");
+    localStorage.setItem("runDinoAfterReload", "true");
 
-        setTimeout(() => {
+    if (!document.getElementById("game-script")) {
+        const script = document.createElement("script");
+        script.src = "/static/js/game.js";
+        script.id = "game-script";
+        script.onload = () => {
+            console.log("✅ Game loaded.");
             terminalActive = false;
             gameActive = true;
             gameContainer.style.display = "block";
-
-            if (!document.getElementById("game-script")) {
-                const script = document.createElement("script");
-                script.src = "/static/js/game.js";
-                script.id = "game-script";
-                script.onload = () => console.log("✅ Game loaded.");
-                script.onerror = () => {
-                    console.error("❌ Failed to load game.js");
-                    printToTerminal("Failed to load game.");
-                };
-                document.body.appendChild(script);
-            } else {
-                printToTerminal("Game already loaded.");
-            }
-        }, 500);
-    } else if (cmd === "clear") {
+            if (typeof startGame === "function") startGame(); // <- zapewnij tę funkcję w game.js
+        };
+        script.onerror = () => {
+            console.error("❌ Failed to load game.js");
+            printToTerminal("Failed to load game.");
+            showPrompt();
+        };
+        document.body.appendChild(script);
+    } else {
+        terminalActive = false;
+        gameActive = true;
+        gameContainer.style.display = "block";
+        if (typeof startGame === "function") startGame();
+    }
+}
+ else if (cmd === "clear") {
         clearTerminal();
         showPrompt();
     } else if (cmd === "help") {
@@ -308,21 +313,39 @@ function handleCommand(cmd) {
 }
 
 
+//document.addEventListener("keydown", function(e) {
+//    if (terminalActive) {
+//        if (e.key === "Enter") {
+//            const cmd = commandBuffer.trim();
+//            printToTerminal(`$ ${cmd}`);
+//            handleCommand(cmd);
+//        } else if (e.key === "Backspace") {
+//            commandBuffer = commandBuffer.slice(0, -1);
+//            updateCurrentLine();
+//        } else if (e.key.length === 1) {
+//            commandBuffer += e.key;
+//            updateCurrentLine();
+//        }
+//    }
+//});
+
 document.addEventListener("keydown", function(e) {
-    if (terminalActive) {
-        if (e.key === "Enter") {
-            const cmd = commandBuffer.trim();
-            printToTerminal(`$ ${cmd}`);
-            handleCommand(cmd);
-        } else if (e.key === "Backspace") {
-            commandBuffer = commandBuffer.slice(0, -1);
-            updateCurrentLine();
-        } else if (e.key.length === 1) {
-            commandBuffer += e.key;
-            updateCurrentLine();
-        }
+    if (!terminalActive) return; // nie przechwytuj, jeśli gra aktywna
+
+    if (e.key === "Enter") {
+        const cmd = commandBuffer.trim();
+        printToTerminal(`$ ${cmd}`);
+        handleCommand(cmd);
+    } else if (e.key === "Backspace") {
+        commandBuffer = commandBuffer.slice(0, -1);
+        updateCurrentLine();
+    } else if (e.key.length === 1) {
+        commandBuffer += e.key;
+        updateCurrentLine();
     }
 });
+
+
 //crash
 function showCrashScreen() {
     document.body.innerHTML = `
