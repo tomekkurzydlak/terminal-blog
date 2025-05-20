@@ -260,6 +260,11 @@ if (cmd === "run dino") {
             protected: true,
             content: `ACCESS GRANTED.\nCoordinates received.\nDecode location: /dev/deep/core`
         },
+        ".bash_aliases": `alias neo='matrix'
+        alias ls='ls --color=auto'
+        alias sudo='echo nope'
+        alias help='man help'
+        alias please='sudo'`,
         "/dev/deep/core": `*** CORE DUMP INTERFACE ONLINE ***
         >>> memory: unstable
         >>> threads: corrupted
@@ -276,7 +281,6 @@ if (cmd === "run dino") {
         You were not supposed to reach this depth.
         Disconnect immediately.
         `
-
     };
 
     const file = fakeFiles[filename];
@@ -347,7 +351,10 @@ if (cmd === "run dino") {
         runSudo();
     }   else if (cmd === "") {
         showPrompt();
-    } else if (cmd === "neo") {
+    } else if (cmd === "matrix") {
+        printToTerminal("Follow the white_rabbit, Neo");
+        showPrompt();
+    } else if (cmd === "Neo" || cmd === "neo") {
     if (!document.getElementById("matrix-script")) {
         const script = document.createElement("script");
         script.src = "/static/js/matrix.js";
@@ -515,6 +522,7 @@ function runLs(args = []) {
         printToTerminal("-rw-r--r--  1 guest guest    80 May 20 22:00 secret.txt");
         printToTerminal("-rw-r--r--  1 guest guest    60 May 20 22:00 unicorn.log");
         printToTerminal("-rw-------  1 guest guest    42 May 20 22:00 .the_path");
+        printToTerminal("-rw-------  1 guest guest    57 May 20 22:00 .bash_aliases");
     } else {
         printToTerminal("game.js  index.html  notes.txt  secret.txt  unicorn.log");
     }
