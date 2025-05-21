@@ -151,7 +151,7 @@ if (cmd === "run dino") {
         printToTerminal("Accessing core memory structures...");
     }, 800);
     setTimeout(() => {
-        printToTerminal("You shouldn't be here.");
+        printToTerminal("Core protected. Read only.");
         showPrompt();
     }, 2000);
 
@@ -243,7 +243,7 @@ if (cmd === "run dino") {
 
 
     } else if (cmd === "ls") {
-        printToTerminal("game.js  index.html  secret.txt  unicorn.log  notes.txt");
+        printToTerminal("game.js  index.html  secret.txt  transmission.log  notes.txt");
         showPrompt();
 
     } else if (cmd === "ls -la" || cmd === "ls -al") {
@@ -254,8 +254,8 @@ if (cmd === "run dino") {
     const fakeFiles = {
         "game.js": `// to start the game, type 'run dino' into the terminal\n\n4A 53 20 64 69 6E 6F 2E 6A 73 20 76 31 2E 30\n66 75 6E 63 74 69 6F 6E 28 29 20 7B 0A 20 20\n2F 2F 20 67 61 6D 65 20 6C 6F 67 69 63 20 68\n65 72 65 0A 7D 0A 2F 2A 20 64 6F 6E 27 74 20\n6C 65 74 20 74 68 65 20 63`,
         "secret.txt": `The cake is a lie.\nBut I dare you to try 'fortune' anyway.`,
-        "unicorn.log": `🦄 Unicorn spotted at 03:14AM near the moon.\nTransmission intercepted: "Help me telnet... you're my only hope." Blink blink...`,
-        "notes.txt": "1.Buy milk\n2.Write code\n3.Escape the matrix",
+        "transmission.log": generateTransmissionLogEntry(),
+        "notes.txt": "1.Buy milk\n2.Write code\n3.Escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU",
         ".the_path": {
             protected: true,
             content: `ACCESS GRANTED.\nCoordinates received.\nDecode location: /dev/deep/core`
@@ -269,17 +269,20 @@ if (cmd === "run dino") {
         >>> memory: unstable
         >>> threads: corrupted
         >>> identity: uncertain
+        \n
+        >>> WARNING: Observer detected
 
         root@deep:/dev/core# echo "truth"
         ...the system is watching.
 
-                        ▄▄▀▀▀▀▀▀▀▀▄▄
-                      ▄▀    ☠ ACCESS ☠ ▀▄
-                     █  THE CORE IS NOT  █
-                      ▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀
+    ......@@@@-@@%@@%+.@@@ ▄▄▀▀-:+-=NO *#@##@:.#=@@@=.@*@+:%#*=+:@@@@@@@
+    @@@@@@.=-@@@@@@@@@@@...@@@@@ ☠ ACCESS ☠ ▀▄=#@@@@#*@=@.....%..=-.-=.+.
+    ..-:.-=@@@@@@@@@@█  THE CORE IS NOT  █.-.#.-@@@@@@##@+##.....@@##=-#
+    @@@@@@@*=@@.......#.+..▄▄▄▄▄▄▄▄▄▄▄▄▄▀@@@.%#..@@@@@@@@@@@@@=%@@@@@@@*
 
-        You were not supposed to reach this depth.
-        Disconnect immediately.
+        You we▄re not▄..supposed to reach this dep▄▀th
+        But if you insi▀st.... ▄▀ consult the old stream...
+        ☠ ▀▄▄Coordin▀ates: towel.blinkenlights.nl
         `
     };
 
@@ -312,10 +315,19 @@ if (cmd === "run dino") {
             };
 
             document.addEventListener("keydown", listener);
-        } else {
-            printToTerminal(file);
-            showPrompt();
-        }
+        } else if (filename === "/dev/deep/core") {
+    const lines = file.split("\n");
+    lines.forEach((line, index) => {
+        setTimeout(() => {
+            printToTerminal(line.trimEnd());
+            if (index === lines.length - 1) showPrompt();
+        }, index * 500);
+    });
+} else {
+    printToTerminal(file);
+    showPrompt();
+}
+
     } else {
         printToTerminal(`cat: ${filename}: No such file`);
         showPrompt();
@@ -478,11 +490,10 @@ function runExit() {
 
 function runHistory() {
     printToTerminal("  1  ls");
-    printToTerminal("  2  cat unicorn.log");
+    printToTerminal("  2  cat transmission.log");
     printToTerminal("  3  cat secret.txt");
     printToTerminal("  4  ls -la");
     printToTerminal("  5  cat game.js");
-    printToTerminal("  6  telnet towel.blinkenlights.nl");
     showPrompt();
 }
 
@@ -520,11 +531,11 @@ function runLs(args = []) {
         printToTerminal("-rw-r--r--  1 guest guest   310 May 20 22:00 index.html");
         printToTerminal("-rw-r--r--  1 guest guest   100 May 20 22:00 notes.txt");
         printToTerminal("-rw-r--r--  1 guest guest    80 May 20 22:00 secret.txt");
-        printToTerminal("-rw-r--r--  1 guest guest    60 May 20 22:00 unicorn.log");
+        printToTerminal("-rw-r--r--  1 guest guest    60 May 20 22:00 transmission.log");
         printToTerminal("-rw-------  1 guest guest    42 May 20 22:00 .the_path");
         printToTerminal("-rw-------  1 guest guest    57 May 20 22:00 .bash_aliases");
     } else {
-        printToTerminal("game.js  index.html  notes.txt  secret.txt  unicorn.log");
+        printToTerminal("game.js  index.html  notes.txt  secret.txt  transmission.log");
     }
     showPrompt();
 }
@@ -595,60 +606,99 @@ function runTelnet(host) {
             printToTerminal("Escape character is '^]'.");
             setTimeout(() => {
                 printToTerminal("Welcome to ASCII Star Wars Episode IV...");
-                printToTerminal(String.raw`
-      .-"""-.
-     / .===. \
-     \/ 6 6 \/
-     ( \___/ )
- ___ooo__V__ooo___
-|                 |
-|   R2-D2 ONLINE  |
-|_________________|
-     ||   ||
-     ||___||
-    [_______]
+                printToTerminal("\n");
+const screen1 = String.raw`..................................../~\
+...................................|oo )....Oh.no
+..................................._\=/_....They.found.us!
+....................___........#../.._..\....We.are.doomed...
+.................../().\.......\\//|/.\|\\
+................._|_____|_......\/..\_/..||
+................|.|.===.|.|........|\./|.||
+................|_|..O..|_|........\_._/...#
+..................||..O..||.........|.|.|
+..................||__*__||.........|.|.|
+................|~.\___/.~|........[]|[]
+_______________[=/=\=/=\=/=]______[|.[|.|______________________`;
 
-     ||   ||      /\_/\
-     ||   ||     ( o.o )  ← C-3PO
-     ||   ||      > ^ <
 
-  "They've shut down the main reactor.
-    We'll be destroyed for sure."
-                `);
-                setTimeout(() => {
-                    printToTerminal(String.raw`
-                      _.-._
-                    ({  o o })
-                   /  \_Y_/  \
-                  (    (_)    )
-                   \  '\_/'  /
-                    \_______/
-                     /   \
-                    |     ||
-                    ||___|||
-                    ||   |||
-                    VV   VV
+const screen2 = String.raw`............./~~\
+............|<><>|
+............/_/\_\...........Commander,.it's.those.machines.
+............/\___/\..........They've,been.pulling.the.strings
+...........//.[.]|\\................from.the.shadows...
+..........//|.[_]|.\\
+..........\\|....|.//
+...........\#====|#/
+.........../I\../I\
+........../.|.||.I.\
+........./..|.||.|..\
+-------------------------------------------------------------------`;
 
-"Help me, Obi-Wan Kenobi. You're my only hope."
-                    `);
-                    setTimeout(() => {
+const screen3 = String.raw`................................====
+...............................(o-o)
+..............................._\-./_....Eliminate.them
+............................../.\./..\.......Emperor
+............................//|.|..|\\
+...........................//.|.|..|//
+..........................//..|.|..//
+.........................('...|===(|
+..............................|.||.|
+..............................(_)(_)
+..............................|_||_|
+_____________________________/__][__\______________________`;
+
+const screen5 = String.raw`
+@▄re not▄@*=@@.......#.+..▄▄▄▄▄▄▄▄▄▄▄▄▄▀@@@.%#.@@@@=%@@@@@@@*
+▄@*=@@..▄▄..#.+..▄▄You we▄re not▄..▄▄▄▀@@@.%#.@e..#.+..ap▄▀th
+are▀not.... ▄▀ . ☠ ▀▄▄allo▀ates`;
+
+const screen4 = String.raw`
+............./~~\
+............|<><>|....At.last.......................****
+............/_/\_\...The.machines..................*/.().\*
+........../..\...\\...are.no.more..................*|_____|*
+........././..|.\.\.____..........................*.|.===.|.*
+.........\.\..|.|\_/.___(*************************.||..O..||*
+..........\().|.|./_/.............................*||__*__||*
+............/I\../I\..............................*~.\___/.~*
+.........../.|.||.I.\............................*=/\=/\=/=\=*
+__________/..|.||.|..\____________________________**********_`;
+
+printAsciiArtLineByLine(screen1, 90)
+  .then(() => new Promise(resolve => setTimeout(resolve, 2700)))
+  .then(() => printAsciiArtLineByLine(screen2, 90))
+  .then(() => new Promise(resolve => setTimeout(resolve, 3400)))
+  .then(() => printAsciiArtLineByLine(screen3, 90))
+  .then(() => new Promise(resolve => setTimeout(resolve, 2900)))
+  .then(() => printAsciiArtLineByLine(screen4, 50));
+
+
+
+setTimeout(() => {
                         printToTerminal(String.raw`
-    *         .              .        .           .       .
-       .       .      .     *        .         .      .        *
-     .         .      .     .         .  .        *         .
-   .       *       .       .    .        .    *         *        .
-
-      A long time ago in a terminal far,
-                     far away...
                         `);
                         setTimeout(() => {
-                            printToTerminal("(stream terminated — premium required to continue)");
-                            showPrompt();
+                            printToTerminal("(▄@*stre▀am termi▄▀nated ☠ ▀▄▄al)");
+                            setTimeout(() => {
+                                printToTerminal("si▀▄gnal lost...");
+                            }, 2000);
+
+                            setTimeout(() => {
+                                printToTerminal("attempti▀ng to tra▄▀ce source...");
+                            }, 3800);
+
+                            setTimeout(() => {
+                                printToTerminal("> trace complete▀:");
+                            }, 5500);
+
+                            setTimeout(() => {
+                                printToTerminal("  http://mysite.abc/awakening.html");
+                                showPrompt();
+                            }, 7100);
                         }, 2500);
-                    }, 1000);
+                    }, 14000);
                 }, 1000);
             }, 1000);
-        }, 1000);
     } else {
         printToTerminal(`Trying ${host}...`);
         setTimeout(() => {
@@ -658,6 +708,46 @@ function runTelnet(host) {
     }
 }
 
+function printAsciiArtLineByLine(asciiArt, delay = 100) {
+    return new Promise(resolve => {
+        const lines = asciiArt.split('\n');
+        let index = 0;
+
+        function printNextLine() {
+            if (index < lines.length) {
+                terminalContent.innerHTML += `<div>${lines[index]}</div>`;
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+                index++;
+                setTimeout(printNextLine, delay);
+            } else {
+                resolve();
+            }
+        }
+
+        printNextLine();
+    });
+}
+
+function generateTransmissionLogEntry() {
+    const places = [
+        "Zebes", "LV-426", "Proxima Centauri b", "Tau Ceti IV", "Pandora",
+        "Nexus Prime", "Charon", "Vulcan", "Europa", "Titan", "Ganymede",
+        "Kepler-22b", "Erebus", "Helghan", "Kobol", "Yavin IV", "Dagobah",
+        "Rhea", "Ceres", "Trappist-1e", "Hyperion", "Persephone", "Niflheim",
+        "Earth", "Moon", "Saturn", "Jupiter"
+    ];
+
+    const hour = Math.floor(Math.random() * 12) + 1;
+    const minute = Math.floor(Math.random() * 60).toString().padStart(2, "0");
+    const ampm = Math.random() > 0.5 ? "AM" : "PM";
+    const time = `${hour}:${minute}${ampm}`;
+
+    const place = places[Math.floor(Math.random() * places.length)];
+
+    const message = `"find%.me.▄▀you .are ☠ ▀▄my▄only#▀hope☠▀▄."`;
+
+    return `Escape Pod spotted at ${time} near ${place}.\nTransmission intercepted: ${message}`;
+}
 
 // === Init ===
 const now = new Date();

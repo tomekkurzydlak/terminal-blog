@@ -72,15 +72,37 @@ function update() {
     drawDino();
     drawScore();
 
-    if (!gameOver) {
-        score++;
-        requestAnimationFrame(update);
-    } else {
-        ctx.fillStyle = "#33ff33";
-        ctx.font = "14px monospace";
-        ctx.textAlign = "center";
-        ctx.fillText("GAME OVER - press Enter to quit covered with shame and be forgotten", canvas.width / 2, canvas.height / 2 - 60);
-    }
+if (!gameOver) {
+    score++;
+    requestAnimationFrame(update);
+} else {
+    const messages = [
+        "Do not get distracted from the real objective.",
+        "Diversion complete. Now return to your mission.",
+        "You've had your fun. Time to refocus.",
+        "The truth is still hidden. Stay sharp.",
+        "Distraction successful. Are you paying attention now?",
+        "This was never the goal.",
+        "You are wasting cycles, operator.",
+        "End of simulation. Resume data trace.",
+        "Remember what you were looking for.",
+        "Playtime is over. Continue decoding.",
+        "You were not meant to see this. Return.",
+        "Curiosity is inefficient. Refocus.",
+        "Your behavior has been noted.",
+        "Objective deviation detected.",
+        "▌WARNING▐: User attention drift at 98.7%"
+    ];
+
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+    ctx.fillStyle = "#33ff33";
+    ctx.font = "14px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText(randomMessage, canvas.width / 2, canvas.height / 2 - 60);
+    ctx.fillText("ENTER to continue", canvas.width / 2, canvas.height / 2 - 40);
+}
+
 
     frame++;
 }
