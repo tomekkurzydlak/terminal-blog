@@ -8,20 +8,11 @@ document.body.appendChild(preloadNameScript);
 
 const gameContainer = document.getElementById("game-container");
 
-
-
-
 let terminalActive = true;
 let gameActive = false;
 let commandBuffer = "";
 
-// === Terminal UI ===
-
-//function printToTerminal(text) {
-//    terminalContent.innerHTML += `<div>${text}</div>`;
-//    terminalContent.scrollTop = terminalContent.scrollHeight;
-//}
-
+// === Terminal UI =====
 function printToTerminal(text) {
     const lines = text.split('\n');
     lines.forEach(line => {
@@ -30,21 +21,12 @@ function printToTerminal(text) {
     terminalContent.scrollTop = terminalContent.scrollHeight;
 }
 
-
-//function showPrompt() {
-//    const username = typeof getUser === "function" ? getUser() : "guest";
-//    const path = "/home/" + username;
-//    terminalContent.innerHTML += `<div class="prompt">${username}@fake-os:${path} $ <span class="command-input">${commandBuffer}</span></div>`;
-//    terminalContent.scrollTop = terminalContent.scrollHeight;
-//}
 function showPrompt() {
     const username = typeof getUser === "function" ? getUser() : "guest";
     const path = typeof getCurrentDirectory === "function" ? getCurrentDirectory() : "/home";
     terminalContent.innerHTML += `<div class="prompt">${username}@SP367SRE-OS:${path} $ <span class="command-input">${commandBuffer}</span></div>`;
     terminalContent.scrollTop = terminalContent.scrollHeight;
 }
-
-
 
 function clearTerminal() {
     terminalContent.innerHTML = "";
@@ -99,42 +81,28 @@ if (cmd === "run dino") {
 
 } else if (cmd === "help") {
     printToTerminal("Available commands:");
-
-    printToTerminal("\n");
-    printToTerminal("System & Files:");
+    printToTerminal("<dir>");
     printToTerminal("  ls                    list directory contents");
-    printToTerminal("  cat <file>            display file contents");
-    printToTerminal("  cd <dir>              change directory");
-    printToTerminal("  rm <file>             remove file");
-    printToTerminal("  mkdir <dir>           make directory");
-    printToTerminal("  touch <file>          create empty file");
-
-    printToTerminal("\n");
-    printToTerminal("Networking:");
-    printToTerminal("  curl <url>            transfer data from URL");
-    printToTerminal("  wget <url>            download file");
-    printToTerminal("  telnet <host>         open telnet connection");
-    printToTerminal("  ping <host>           test host reachability");
-    printToTerminal("  ssh <host>            connect via SSH");
-
-    printToTerminal("\n");
-    printToTerminal("Identity & Environment:");
+    printToTerminal("  cat [file]            display file contents");
+    printToTerminal("  cd [dir]              change directory");
+    printToTerminal("  rm [file]             remove file");
+    printToTerminal("  mkdir [dir]           make directory");
+    printToTerminal("  touch [file]          create empty file");
+    printToTerminal("  curl [url]            transfer data from URL");
+    printToTerminal("  wget [url]            download file");
+    printToTerminal("  telnet [host]         open telnet connection");
+    printToTerminal("  ping [host]           test host reachability");
+    printToTerminal("  ssh [host]            connect via SSH");
     printToTerminal("  whoami                show current user");
-    printToTerminal("  name <name>           set user name");
+    printToTerminal("  name [name]           set user name");
     printToTerminal("  pwd                   print working directory");
     printToTerminal("  env                   display environment");
-
-    printToTerminal("\n");
-    printToTerminal("Processes & System:");
     printToTerminal("  ps                    list active processes");
     printToTerminal("  top                   display real-time process info");
     printToTerminal("  uptime                show system uptime");
     printToTerminal("  who                   show who is logged in");
-
-    printToTerminal("\n");
-    printToTerminal("Misc:");
-    printToTerminal("  sudo <cmd>            execute command as superuser");
-    printToTerminal("  echo <text>           display line of text");
+    printToTerminal("  sudo [cmd]            execute command as superuser");
+    printToTerminal("  echo [text]           display line of text");
     printToTerminal("  history               show command history");
     printToTerminal("  exit                  terminate session");
 
@@ -209,6 +177,9 @@ if (cmd === "run dino") {
 
     } else if (args[0] === "ps") {
         runPs();
+
+    } else if (args[0] === "ping") {
+    runPing(args[1]);
 
     } else if (args[0] === "telnet") {
         runTelnet(args[1]);
@@ -751,6 +722,33 @@ function generateTransmissionLogEntry() {
 
     return `Escape Pod spotted at ${time} near ${place}.\nTransmission intercepted: ${message}`;
 }
+
+function runPing(host) {
+    if (!host) {
+        printToTerminal("ping: missing host operand");
+        showPrompt();
+        return;
+    }
+
+    const count = 4;
+    let sent = 0;
+
+    const interval = setInterval(() => {
+        if (sent >= count) {
+            clearInterval(interval);
+            printToTerminal(`\n--- ${host} ping statistics ---`);
+            printToTerminal(`${count} packets transmitted, ${count} received, 0% packet loss`);
+            printToTerminal(`rtt min/avg/max = 22.8/27.3/35.4 ms`);
+            showPrompt();
+            return;
+        }
+
+        const time = (22 + Math.random() * 15).toFixed(1);
+        printToTerminal(`64 bytes from ${host}: icmp_seq=${sent + 1} ttl=56 time=${time} ms`);
+        sent++;
+    }, 500);
+}
+
 
 // === Init ===
 const now = new Date();
