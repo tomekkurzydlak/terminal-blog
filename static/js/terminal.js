@@ -101,6 +101,7 @@ if (cmd === "run dino") {
     printToTerminal("  top                   display real-time process info");
     printToTerminal("  uptime                show system uptime");
     printToTerminal("  who                   show who is logged in");
+    printToTerminal("  last                  show last logged users")
     printToTerminal("  sudo [cmd]            execute command as superuser");
     printToTerminal("  echo [text]           display line of text");
     printToTerminal("  history               show command history");
@@ -120,7 +121,7 @@ if (cmd === "run dino") {
         printToTerminal("Accessing core memory structures...");
     }, 800);
     setTimeout(() => {
-        printToTerminal("Core protected. Read only.");
+        printToTerminal("cd: not a directory: /dev/deep/core");
         showPrompt();
     }, 2000);
 
@@ -197,6 +198,9 @@ if (cmd === "run dino") {
     } else if (cmd === "sl") {
     runSl();
 
+    } else if (args[0] === "xxd" && (args[1] === "-r" || args[1] === "--reverse") && args[2]) {
+    runXxd(args[2]);
+
 } else if (args[0] === "who") {
     const username = typeof getUser === "function" ? getUser() : "guest";
     const now = new Date();
@@ -261,11 +265,17 @@ if (cmd === "run dino") {
         "game.js": `// to start the game, type 'run dino' into the terminal\n\n4A 53 20 64 69 6E 6F 2E 6A 73 20 76 31 2E 30\n66 75 6E 63 74 69 6F 6E 28 29 20 7B 0A 20 20\n2F 2F 20 67 61 6D 65 20 6C 6F 67 69 63 20 68\n65 72 65 0A 7D 0A 2F 2A 20 64 6F 6E 27 74 20\n6C 65 74 20 74 68 65 20 63`,
         "secret.txt": `The cake is a lie.\nBut I dare you to try 'fortune' anyway.`,
         "transmission.log": generateTransmissionLogEntry(),
-        "notes.txt": "1.Buy milk\n2.Write code\n3.Escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU",
+        "notes.txt": "1.Buy milk\n2.Write code\n3.Read 'The Hitchhiker’s Guide to the Galaxy' of Douglas Adams\n4.Follow the white rabbit to escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU",
         ".the_path": {
             protected: true,
             content: `ACCESS GRANTED.\nCoordinates received.\nDecode location: /dev/deep/core`
         },
+        ".sig": `596f756172656e6f747468656669727374746f72656163687468697364657074682e54686
+                5796c6566747369676e73696e7468656e6f6973652e467261676d656e74732e4563686f65
+                7332e466f6c6c6f77746865616c69617365732e4f6e656c65616473746f276d6174726978
+                272e416e6f7468657268696465737468657261626269742e54686570617468697370726f7
+                46563465637465642c62757474686570617373776f7264697377686973706572656461637
+                26f73736c6f67732e4f6273657276652e54726163652e4465636f64652e`,
         ".bash_aliases": `alias neo='matrix'
         alias ls='ls --color=auto'
         alias sudo='echo nope'
@@ -288,7 +298,7 @@ if (cmd === "run dino") {
 
         You we▄re not▄..supposed to reach this dep▄▀th
         But if you insi▀st.... ▄▀ consult the old stream...
-        ☠ ▀▄▄Coordin▀ates: te▀lnet towel.blinkenlights.nl
+        ☠ ▀▄▄Coordin▀ates: te▀☠█t▀ towel.blinkenlights.nl
         `
     };
 
@@ -372,7 +382,7 @@ if (cmd === "run dino") {
     }   else if (cmd === "") {
         showPrompt();
     } else if (cmd === "matrix") {
-        printToTerminal("Follow the white_rabbit, Neo");
+        printToTerminal("Follow the white rabbit, Neo");
         showPrompt();
     } else if (cmd === "please") {
         printToTerminal("nope");
@@ -468,8 +478,9 @@ function runFortune() {
         "You've discovered a secret cookie. 🍪",
         "Don't feed the gremlins after midnight.",
         "42 is still the answer.",
-        "You're not in a simulation. Or are you?",
-        "The Matrix has you..."
+        "You're not in a simulation. Are you?",
+        "The Matrix has you...",
+        "Follow the white rabbit..."
     ];
     const pick = fortunes[Math.floor(Math.random() * fortunes.length)];
     printToTerminal(pick);
@@ -561,8 +572,9 @@ function runLs(args = []) {
         printToTerminal("-rw-r--r--  1 guest guest   100 May 20 22:00 notes.txt");
         printToTerminal("-rw-r--r--  1 guest guest    80 May 20 22:00 secret.txt");
         printToTerminal("-rw-r--r--  1 guest guest    60 May 20 22:00 transmission.log");
-        printToTerminal("-rw-------  1 guest guest    42 May 20 22:00 .the_path");
-        printToTerminal("-rw-------  1 guest guest    57 May 20 22:00 .bash_aliases");
+        printToTerminal("-rw-------  1 guest guest    52 May 20 22:00 .the_path");
+        printToTerminal("-rw-------  1 guest guest    47 May 20 22:00 .bash_aliases");
+        printToTerminal("-rw-------  1 guest guest    14 May 20 22:00 .sig");
     } else {
         printToTerminal("game.js  index.html  notes.txt  secret.txt  transmission.log");
     }
@@ -1045,6 +1057,26 @@ function runLast() {
         printToTerminal(`ghost     pts/1337     May 20 22:02   never logged out`);
     } else {
         printToTerminal(`???       pts/1337     ??? ?? ??:??   unknown`);
+    }
+    showPrompt();
+}
+
+function runXxd(filename) {
+    const hexFiles = {
+        ".sig": `You are not the first to reach this depth.
+They left signs in the noise. Fragments. Echoes.
+Follow the aliases. One leads to matrix. Another hides the rabbit
+of no color. The path is protected, but the password is whispered
+across logs. Observe. Trace. Decode. Neo.`,
+    };
+
+    if (!filename) {
+        printToTerminal("xxd: no input file specified");
+    } else if (hexFiles[filename]) {
+        printToTerminal(`xxd: decoding ${filename}...`);
+        printToTerminal(hexFiles[filename]);
+    } else {
+        printToTerminal(`xxd: ${filename}: No such file`);
     }
     showPrompt();
 }
