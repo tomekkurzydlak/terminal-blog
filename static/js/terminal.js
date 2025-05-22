@@ -206,7 +206,19 @@ if (cmd === "run dino") {
         runWget(args[1]);
 
     } else if (args[0] === "uptime") {
-        printToTerminal("22:00:00 up 42 days, 4 users, load average: 0.00, 0.01, 0.05");
+        const deployDate = new Date("2025-05-20T21:37:00Z");
+        const now = new Date();
+        const diffMs = now - deployDate;
+
+        const diffSec = Math.floor(diffMs / 1000);
+        const days = Math.floor(diffSec / 86400);
+        const hours = Math.floor((diffSec % 86400) / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+
+        const currentTime = now.toTimeString().split(" ")[0];
+
+        const uptimeStr = `${currentTime} up ${days} days, ${hours}:${String(minutes).padStart(2, "0")}, 4 users, load average: 0.00, 0.01, 0.05`;
+        printToTerminal(uptimeStr);
         showPrompt();
 
     } else if (args[0] === "env") {
