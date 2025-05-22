@@ -107,16 +107,21 @@ if (!gameOver) {
     frame++;
 }
 
-// Start game when images are ready
-dinoImg.onload = () => cactusImg.onload = update;
+let imagesLoaded = 0;
 
-function startGame() {
-    // zapewnia, że oba obrazki są gotowe
-    if (dinoImg.complete && cactusImg.complete) {
-        update(); // zaczynamy grę
-    } else {
-        // jeśli obrazki jeszcze się ładują, poczekaj na nie
-        dinoImg.onload = () => cactusImg.onload = update;
+function checkImagesReady() {
+    imagesLoaded++;
+    if (imagesLoaded === 2) {
+        update(); // Start the game only once both are ready
     }
 }
+
+dinoImg.onload = checkImagesReady;
+cactusImg.onload = checkImagesReady;
+
+function startGame() {
+    if (dinoImg.complete) checkImagesReady();
+    if (cactusImg.complete) checkImagesReady();
+}
+
 
