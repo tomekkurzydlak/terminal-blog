@@ -448,12 +448,30 @@ function runFortune() {
 
 // sudo
 function runSudo(cmd) {
-    printToTerminal("[sudo] password for guest: *********");
-    setTimeout(() => {
-        printToTerminal(`Permission denied: unable to run \\"${cmd}\\" as root.`);
-        showPrompt();
-    }, 1000);
+    printToTerminal("[sudo] password for guest: ");
+    let passwordBuffer = "";
+    terminalActive = false;
+
+    const listener = (e) => {
+        if (e.key === "Enter") {
+            document.removeEventListener("keydown", listener);
+            terminalActive = true;
+
+            printToTerminal("");
+            printToTerminal(`Sorry, try again.`);
+            printToTerminal(`guest is not in the sudoers file. This incident will be reported.`);
+            printToTerminal(`Permission denied: unable to run "${cmd}" as root.`);
+            showPrompt();
+        } else if (e.key === "Backspace") {
+            passwordBuffer = passwordBuffer.slice(0, -1);
+        } else if (e.key.length === 1) {
+            passwordBuffer += e.key;
+        }
+    };
+
+    document.addEventListener("keydown", listener);
 }
+
 
 function runEcho(args) {
     if (args.length === 0) {
@@ -1013,16 +1031,5 @@ printToTerminal(`Last login: ${loginTimestamp} from ${fakeIp}\n`);
 
 showPrompt();
 
-//window.addEventListener("DOMContentLoaded", () => {
-//    if (localStorage.getItem("runDinoAfterReload") === "true") {
-//        localStorage.removeItem("runDinoAfterReload");
-//        handleCommand("run dino");
-//    }
-//});
-
-//if (localStorage.getItem("runDinoAfterReload") === "true") {
-//    localStorage.removeItem("runDinoAfterReload");
-//    setTimeout(() => handleCommand("run dino"), 0);
-//}
 
 
