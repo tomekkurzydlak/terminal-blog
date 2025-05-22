@@ -194,10 +194,23 @@ if (cmd === "run dino") {
     } else if (cmd === "sl") {
     runSl();
 
-    } else if (args[0] === "who") {
-        const username = typeof getUser === "function" ? getUser() : "guest";
-        printToTerminal(`${username}    tty1    2025-05-20 22:00`);
-        showPrompt();
+} else if (args[0] === "who") {
+    const username = typeof getUser === "function" ? getUser() : "guest";
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+
+    printToTerminal(`${username}    tty1        ${year}-${month}-${day} ${hour}:${minute}`);
+
+    if (window.__ghostRevealed) {
+        printToTerminal(`ghost       pts/1337    2025-05-20 22:02`);
+    }
+
+    showPrompt();
 
     } else if (args[0] === "curl") {
         runCurl(args[1]);
@@ -279,7 +292,7 @@ if (cmd === "run dino") {
     const file = fakeFiles[filename];
 
     if (file) {
-        // Jeśli to obiekt chroniony
+        // if protected
         if (typeof file === "object" && file.protected) {
             printToTerminal("Access to this file is restricted.");
             printToTerminal("Enter passphrase:");
@@ -292,8 +305,10 @@ if (cmd === "run dino") {
                     document.removeEventListener("keydown", listener);
                     terminalActive = true;
                     if (buffer.trim().toLowerCase() === "white_rabbit") {
+                        window.__ghostRevealed = true;
                         printToTerminal(file.content);
-                    } else {
+                    }
+                     else {
                         printToTerminal("Access denied.");
                     }
                     showPrompt();
