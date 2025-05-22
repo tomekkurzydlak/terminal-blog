@@ -246,7 +246,7 @@ if (cmd === "run dino") {
         printToTerminal("game.js  index.html  secret.txt  transmission.log  notes.txt");
         showPrompt();
 
-    } else if (cmd === "ls -la" || cmd === "ls -al") {
+    } else if (cmd === "ls -la" || cmd === "ls -al" || cmd === "ls -a") {
     runLs(["-la"]);
 
 } else if (args[0] === "cat" && args[1]) {
@@ -277,12 +277,12 @@ if (cmd === "run dino") {
 
     ......@@@@-@@%@@%+.@@@ ▄▄▀▀-:+-=NO *#@##@:.#=@@@=.@*@+:%#*=+:@@@@@@@
     @@@@@@.=-@@@@@@@@@@@...@@@@@ ☠ ACCESS ☠ ▀▄=#@@@@#*@=@.....%..=-.-=.+.
-    ..-:.-=@@@@@@@@@@█  THE CORE IS NOT  █.-.#.-@@@@@@##@+##.....@@##=-#
-    @@@@@@@*=@@.......#.+..▄▄▄▄▄▄▄▄▄▄▄▄▄▀@@@.%#..@@@@@@@@@@@@@=%@@@@@@@*
+    ..-:.-=@@@@@@@@@@█  THE CORE IS NOT  █.-.#.-@@@@▀ACCE@+##.....@@#=-#
+    @@@@@@@*=@@.......#.+..▄▄▄▄SI▀BLE▄▄▄▄▄▄▀@@@.%#..@@@@@@@@@@@@@=%@@@@@@@*
 
         You we▄re not▄..supposed to reach this dep▄▀th
         But if you insi▀st.... ▄▀ consult the old stream...
-        ☠ ▀▄▄Coordin▀ates: towel.blinkenlights.nl
+        ☠ ▀▄▄Coordin▀ates: te▀lnet towel.blinkenlights.nl
         `
     };
 
@@ -333,9 +333,9 @@ if (cmd === "run dino") {
         showPrompt();
     }
 
-
     } else if (cmd === "whoami") {
-        printToTerminal("guest");
+        const username = typeof getUser === "function" ? getUser() : "guest";
+        printToTerminal(`${username}`);
         showPrompt();
 
     } else if (args[0] === "name" && args[1]) {
@@ -365,6 +365,9 @@ if (cmd === "run dino") {
         showPrompt();
     } else if (cmd === "matrix") {
         printToTerminal("Follow the white_rabbit, Neo");
+        showPrompt();
+    } else if (cmd === "please") {
+        printToTerminal("nope");
         showPrompt();
     } else if (cmd === "Neo" || cmd === "neo") {
     if (!document.getElementById("matrix-script")) {
