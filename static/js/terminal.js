@@ -165,6 +165,9 @@ if (cmd === "run dino") {
     } else if (args[0] === "exit") {
         runExit();
 
+    } else if (cmd === "last") {
+    runLast();
+
     } else if (args[0] === "history") {
         runHistory();
 
@@ -1028,6 +1031,22 @@ function runSl() {
             showPrompt();
         }
     }, 200);
+}
+
+function runLast() {
+    const username = typeof getUser === "function" ? getUser() : "guest";
+    const now = new Date();
+    const dateStr = now.toDateString().replace(/^\w+ /, "");
+    const timeStr = now.toTimeString().slice(0, 5);
+
+    printToTerminal(`${username.padEnd(9)}tty1         ${dateStr} ${timeStr}   still logged in`);
+
+    if (localStorage.getItem("ghostRevealed") === "1" || window.__ghostRevealed) {
+        printToTerminal(`ghost     pts/1337     May 20 22:02   never logged out`);
+    } else {
+        printToTerminal(`???       pts/1337     ??? ?? ??:??   unknown`);
+    }
+    showPrompt();
 }
 
 
