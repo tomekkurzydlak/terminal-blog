@@ -75,6 +75,7 @@ if (cmd === "run dino") {
         if (typeof startGame === "function") startGame();
     }
 }
+
  else if (cmd === "clear") {
         clearTerminal();
         showPrompt();
