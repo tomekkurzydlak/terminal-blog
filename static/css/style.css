@@ -7,26 +7,15 @@ body {
 
 .terminal {
     border: 1px solid #33ff33;
-    padding: 10px;
+    background-color: #1e1e1e;
+    font-family: monospace;
+    width: 620px;
 }
 
 .terminal-header {
     background-color: #333;
     padding: 5px;
     font-weight: bold;
-}
-
-.terminal-content {
-    white-space: pre-wrap;
-}
-
-.terminal-window {
-    border: 1px solid #33ff33;
-    width: 620px;
-    margin-top: 30px;
-    font-family: monospace;
-    background-color: #1e1e1e;
-    position: relative;
 }
 
 .terminal-bar {
@@ -42,41 +31,107 @@ body {
 
 .terminal-close {
     background: repeating-linear-gradient(45deg, #33ff33, #33ff33 1px, #33aa00 1px, #33aa00 2px);
-    width: 12px;
+    width: 0px;
     height: 12px;
     border: 1px solid #33ff33;
     display: inline-block;
 }
 
 .terminal-content {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
-    overflow-y: auto;
+    white-space: pre-wrap;
+    overflow: hidden;
     max-height: 400px;
     overscroll-behavior: contain;
     transition: all 0.3s;
+    padding: 10px;
 }
 
-.terminal-content::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+.terminal-window {
+    border: 1px solid #33ff33;
+    width: 620px;
+    margin-top: 30px;
+    font-family: monospace;
+    background-color: #1e1e1e;
+    position: relative;
 }
 
-.terminal-content::-webkit-scrollbar-track {
-    background: transparent;
+.page-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-.terminal-content::-webkit-scrollbar-thumb {
-    background-color: #33ff33;
-    border-radius: 4px;
-    border: 2px solid #1e1e1e;
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
 }
 
-.terminal-content::-webkit-scrollbar {
-    opacity: 0;
-    transition: opacity 0.3s;
+.terminal-bio {
+    width: 620px;
+    overflow-wrap: anywhere;
+    padding: 10px;
 }
 
-.terminal-content:hover::-webkit-scrollbar {
-    opacity: 1;
+.journal-log {
+    border: 1px solid #33ff33;
+    background-color: #1e1e1e;
+    font-family: monospace;
+    flex: 0 0 250px;
+    max-height: 90vh;
+    overflow: hidden;
+    position: sticky;
+    top: 20px;
+}
+
+.journal-log .terminal-bar {
+    background-color: #222;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #33ff33;
+    font-size: 12px;
+    border-bottom: 1px solid #33ff33;
+}
+
+.journal-log .terminal-content {
+    white-space: normal;
+    text-align: left;
+    padding: 10px;
+    overflow: hidden; /* hide scrollbar */
+}
+
+.journal-log a {
+    color: #33ff33;
+    text-decoration: none;
+}
+
+.journal-log a:hover {
+    text-decoration: underline;
+}
+
+/* responsive options */
+@media (max-width: 1024px) {
+    .page-layout {
+        flex-direction: column;
+    }
+
+    .journal-log {
+        flex: 1 1 auto;
+        width: 100%;
+        max-height: none;
+        position: static;
+    }
+
+    .right-column {
+        width: 100%;
+    }
+
+    .terminal,
+    .terminal-bio {
+        width: 100%;
+    }
 }

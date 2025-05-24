@@ -7,33 +7,52 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="terminal">
-        <div class="terminal-header">Welcome</div>
-        <div class="terminal-content">
-            Welcome to my terminal-style homepage!<br><br>
-            Use the links below to browse blog posts:<br>
-            <!-- GENERATED_ARTICLE_LIST -->
-- <a href="posts/test-article.html">Testowy Artykuł</a><br>
-- <a href="posts/hello_world.html">Hello World</a>
+    <div class="page-layout">
+        <!-- Journal log -->
+        <div class="journal-log">
+            <div class="terminal-bar">
+                <span>~/journal_log</span>
+                <span class="terminal-close"></span>
+            </div>
+            <div class="terminal-content">
+                Browse blog posts:<br><br>
+                <!-- GENERATED_ARTICLE_LIST -->
+                - <a href="posts/test-article.html">Testowy Artykuł</a><br>
+                - <a href="posts/hello_world.html">Hello World</a>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <!-- Bio section -->
+            <div class="terminal">
+                <div class="terminal-bar">
+                    <span>~/bio</span>
+                    <span class="terminal-close"></span>
+                </div>
+                <div class="terminal-content" style="padding: 0 10px 10px 10px; height: 180px; overflow-y: auto;">
+> whoami<br>
+Tom – software, data & AI engineer blending Python, Rust, and a pinch of magic to create scalable systems.
+I craft tools that crunch data, deploy to the cloud, and make life easier for teams.
+From backend systems through AI pipelines to BigQuery, if it involves code and data, I’m probably already on it.<br>
+Curious? The terminal’s waiting.
+                </div>
+            </div>
+
+            <!-- Terminal window -->
+            <div id="terminal" class="terminal">
+                <div class="terminal-bar">
+                    <span>~/terminal</span>
+                    <span class="terminal-close"></span>
+                </div>
+                <div id="terminal-content" style="padding: 10px; height: 160px; overflow-y: auto;"></div>
+                <div id="game-container" style="display: none; padding: 10px 10px 0;">
+                    <canvas id="gameCanvas" width="600" height="200" style="background: #1e1e1e;"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Terminal -->
-<div id="terminal" class="terminal-window">
-  <div class="terminal-bar">
-    <span>~/terminal</span>
-    <span class="terminal-close"></span>
-  </div>
-
-  <div id="terminal-content" style="padding: 10px; height: 160px; overflow-y: auto;"></div>
-
-  <!-- Game Canvas -->
-  <div id="game-container" style="display: none; padding: 10px 10px 0;">
-    <canvas id="gameCanvas" width="600" height="200" style="background: #1e1e1e;"></canvas>
-  </div>
-</div>
-
-<script src="/static/js/terminal.js"></script>
-
+    <script src="/static/js/terminal.js"></script>
 </body>
 </html>
+
