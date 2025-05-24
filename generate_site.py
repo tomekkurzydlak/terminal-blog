@@ -40,7 +40,7 @@ for post_path in posts:
 
     index_links.append(f'- <a href="/posts/{output_filename}">{meta["title"]}</a>')
 
-# 🔁 Update index.html
+# Update index.html
 if INDEX_PATH.exists():
     with open(INDEX_PATH, "r", encoding="utf-8") as f:
         index_html = f.read()
@@ -53,4 +53,4 @@ if INDEX_PATH.exists():
         with open(INDEX_PATH, "w", encoding="utf-8") as f:
             f.write(updated_html)
     else:
-        print("⚠️ No GENERATED_ARTICLE_LIST placeholder found in index.html")
+        print("No GENERATED_ARTICLE_LIST placeholder found in index.html")
