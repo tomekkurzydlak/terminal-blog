@@ -112,7 +112,7 @@ let imagesLoaded = 0;
 function checkImagesReady() {
     imagesLoaded++;
     if (imagesLoaded === 2) {
-        update(); // Start the game only once both are ready
+        update();
     }
 }
 
