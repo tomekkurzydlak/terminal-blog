@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Not Found</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .terminal {
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-bar">
+            <span>~/error_404</span>
+            <span class="terminal-close"></span>
+        </div>
+        <div class="terminal-content">
+> error: 404 Not Found
+Looks like you've taken a wrong turn.
+The file you're looking for doesn't exist here.
+But don't worry, even the best hackers mistype paths sometimes.
+
+> suggestion: double-check the URL or head back to ~/home
+        </div>
+    </div>
+    <script>
+        document.addEventListener('keydown', function() {
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>
