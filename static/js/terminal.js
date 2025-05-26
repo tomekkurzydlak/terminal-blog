@@ -716,8 +716,8 @@ are▀not.... ▄▀ . ☠ ▀▄▄allo▀ates`;
 
 const screen4 = String.raw`
 ............./~~\
-............|<><>|....At.last.......................****
-............/_/\_\...The.machines..................*/.().\*
+............|<><>|....At.last........................****
+............/_/\_\...The.machines...................*/.().\*
 ........../..\...\\...are.no.more..................*|_____|*
 ........././..|.\.\.____..........................*.|.===.|.*
 .........\.\..|.|\_/.___(*************************.||..O..||*
@@ -1082,7 +1082,7 @@ across logs. Observe. Trace. Decode. Neo.`,
         printToTerminal(`xxd: decoding ${filename}...`);
         printToTerminal(hexFiles[filename]);
     } else {
-        printToTerminal(`xxd: ${filename}: No such file`);
+        printToTerminal(`xxd: ${filename}: I/O error or no such file`);
     }
     showPrompt();
 }
