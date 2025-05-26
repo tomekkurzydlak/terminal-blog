@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/site/index.html" },
-    { "source": "/posts/:match*", "destination": "/site/posts/:match*" },
+    { "source": "/posts/:match*", "destination": "/site/:match*" },
     { "source": "/static/:match*", "destination": "/static/:match*" }
   ]
 }
