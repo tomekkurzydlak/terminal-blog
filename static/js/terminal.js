@@ -89,6 +89,7 @@ if (cmd === "run dino") {
     printToTerminal("  rm [file]             remove file");
     printToTerminal("  mkdir [dir]           make directory");
     printToTerminal("  touch [file]          create empty file");
+    printToTerminal("  xxd [file]            binary <-> hexdump");
     printToTerminal("  curl [url]            transfer data from URL");
     printToTerminal("  wget [url]            download file");
     printToTerminal("  telnet [host]         open telnet connection");
@@ -266,7 +267,7 @@ if (cmd === "run dino") {
         "game.js": `// to start the game, type 'run dino' into the terminal\n\n4A 53 20 64 69 6E 6F 2E 6A 73 20 76 31 2E 30\n66 75 6E 63 74 69 6F 6E 28 29 20 7B 0A 20 20\n2F 2F 20 67 61 6D 65 20 6C 6F 67 69 63 20 68\n65 72 65 0A 7D 0A 2F 2A 20 64 6F 6E 27 74 20\n6C 65 74 20 74 68 65 20 63`,
         "secret.txt": `The cake is a lie.\nBut I dare you to try 'fortune' anyway.`,
         "transmission.log": generateTransmissionLogEntry(),
-        "notes.txt": "1.Buy milk\n2.Write code\n3.Read 'The Hitchhiker’s Guide to the Galaxy' of Douglas Adams\n4.Follow the white rabbit to escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU",
+        "notes.txt": "1.Buy milk\n2.Write code\n3.Read 'The Hitchhiker’s Guide to the Galaxy' of Douglas Adams\n4.Escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU",
         ".the_path": {
             protected: true,
             content: `ACCESS GRANTED.\nCoordinates received.\nDecode location: /dev/deep/core`
@@ -282,6 +283,10 @@ if (cmd === "run dino") {
         alias sudo='echo nope'
         alias help='man help'
         alias please='sudo'`,
+        "/etc/motd":`> /etc/motd
+            The path you seek is hidden, yet it leaves traces.
+            Some files are more than they seem. You need to reverse them.
+            Watch for fragments. Decode. Nothing is ever truly erased.`,
         "/dev/deep/core": `*** CORE DUMP INTERFACE ONLINE ***
         >>> memory: unstable
         >>> threads: corrupted
