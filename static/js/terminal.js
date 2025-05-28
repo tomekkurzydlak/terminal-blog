@@ -180,7 +180,7 @@ if (cmd === "run dino") {
         printToTerminal(`${args[0]}: missing message text.`);
         showPrompt();
     } else {
-        const characters = ["Trinity", "Yoda", "Lord Vader", "Morpheus", "The Oracle"];
+        const characters = ["Trinity", "Yoda", "Morpheus", "The Oracle"];
         const chosenCharacter = characters[Math.floor(Math.random() * characters.length)];
 
         const typingTime = Math.random() * (1600 - 800) + 200;
@@ -315,7 +315,7 @@ if (cmd === "run dino") {
         "game.js": `// to start the game, type 'run dino' into the terminal\n\n4A 53 20 64 69 6E 6F 2E 6A 73 20 76 31 2E 30\n66 75 6E 63 74 69 6F 6E 28 29 20 7B 0A 20 20\n2F 2F 20 67 61 6D 65 20 6C 6F 67 69 63 20 68\n65 72 65 0A 7D 0A 2F 2A 20 64 6F 6E 27 74 20\n6C 65 74 20 74 68 65 20 63`,
         "secret.txt": `The cake is a lie.\nBut I dare you to try 'fortune' anyway.`,
         "transmission.log": generateTransmissionLogEntry(),
-        "notes.txt": "1.Buy milk\n2.Write code\n3.Read 'The Hitchhiker’s Guide to the Galaxy' of Douglas Adams\n4.Escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU",
+        "notes.txt": "1.Buy milk\n2.Write code\n3.Read 'The Hitchhiker’s Guide to the Galaxy' of Douglas Adams\n4.Escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU. Psst...msg me",
         ".the_path": {
             protected: true,
             content: `ACCESS GRANTED.\nCoordinates received.\nDecode location: /dev/deep/core`
@@ -534,7 +534,9 @@ function runFortune() {
         "42 is still the answer.",
         "You're not in a simulation. Are you?",
         "The Matrix has you...",
-        "Follow the white rabbit..."
+        "Follow the white rabbit...",
+        "Hint: /msg might unlock a hidden path.",
+        "Psst... /whisper could reveal something special.",
     ];
     const pick = fortunes[Math.floor(Math.random() * fortunes.length)];
     printToTerminal(pick);
