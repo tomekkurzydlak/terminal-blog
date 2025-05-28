@@ -195,7 +195,7 @@ if (cmd === "run dino") {
         })
         .catch(err => {
             console.error(err);
-            printToTerminal("Error communicating with the Oracle.");
+            printToTerminal("The Oracle is sleeping now, come back later");
             showPrompt();
         });}
 
