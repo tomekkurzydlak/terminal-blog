@@ -180,10 +180,10 @@ if (cmd === "run dino") {
         printToTerminal(`${args[0]}: missing message text.`);
         showPrompt();
     } else {
-        const characters = ["Trinity", "Yoda", "Lord Vader", "Neo", "Morpheus", "The Oracle"];
+        const characters = ["Trinity", "Yoda", "Lord Vader", "Morpheus", "The Oracle"];
         const chosenCharacter = characters[Math.floor(Math.random() * characters.length)];
 
-        const typingTime = Math.random() * (900 - 400) + 200;
+        const typingTime = Math.random() * (1600 - 800) + 200;
 
         const typingMessageId = `typing-${Date.now()}`;
         printToTerminal(`<span id="${typingMessageId}">${chosenCharacter} is typing...</span>`);
