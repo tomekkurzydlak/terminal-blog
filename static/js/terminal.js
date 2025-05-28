@@ -174,7 +174,7 @@ if (cmd === "run dino") {
     } else if (args[0] === "history") {
         runHistory();
 
-    } else if (args[0] === "/msg" || args[0] === "/whisper" || args[0] === "/talk") {
+    } else if (args[0] === "/msg" || args[0] === "whisper" || args[0] === "/talk") {
     const text = args.slice(1).join(" ");
     if (!text) {
         printToTerminal(`${args[0]}: missing message text.`);
@@ -537,7 +537,7 @@ function runFortune() {
         "The Matrix has you...",
         "Follow the white rabbit...",
         "Hint: /msg might unlock a hidden path.",
-        "Psst... /whisper could reveal something special.",
+        "Psst... Whisper could reveal something special.",
     ];
     const pick = fortunes[Math.floor(Math.random() * fortunes.length)];
     printToTerminal(pick);
@@ -1125,7 +1125,7 @@ They left signs in the noise. Fragments. Echoes.
 Follow the aliases. One leads to matrix. Another hides the rabbit
 of no color. The path is protected, but the password is whispered
 across logs. Observe. Trace. Decode. Neo.
-Some might respond to /whisper, if you dare.
+Some might respond to whisper, if you dare.
 `,
     };
 
