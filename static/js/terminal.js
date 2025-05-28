@@ -182,23 +182,45 @@ if (cmd === "run dino") {
     } else {
         const characters = ["Trinity", "Yoda", "Lord Vader", "Neo", "Morpheus", "The Oracle"];
         const chosenCharacter = characters[Math.floor(Math.random() * characters.length)];
-        printToTerminal(`${chosenCharacter} is typing...`);
 
-        fetch('/api/chat', {
+        const typingTime = Math.random() * (900 - 400) + 200;
+
+        const typingMessageId = `typing-${Date.now()}`;
+        printToTerminal(`<span id="${typingMessageId}">${chosenCharacter} is typing...</span>`);
+
+        const fetchPromise = fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: `You are ${chosenCharacter}. Respond as ${chosenCharacter}, in their unique style. User says: ${text}` })
+            body: JSON.stringify({ prompt: `You are ${chosenCharacter}. Respond as ${chosenCharacter}, in their style. User says: ${text}` })
         })
-        .then(response => response.json())
-        .then(data => {
-            printToTerminal(`${chosenCharacter}: ${data.message}`);
-            showPrompt();
-        })
-        .catch(err => {
-            console.error(err);
-            printToTerminal("The Oracle is sleeping now, come back later");
-            showPrompt();
-        });}
+        .then(response => response.json());
+
+        setTimeout(() => {
+            fetchPromise.then(data => {
+
+                const typingElem = document.getElementById(typingMessageId);
+                if (typingElem) typingElem.remove();
+
+                printToTerminal(`${chosenCharacter}: ${data.message}`);
+                showPrompt();
+            }).catch(err => {
+                console.error(err);
+                const typingElem = document.getElementById(typingMessageId);
+                if (typingElem) typingElem.remove();
+
+                const sleepyMessages = [
+                    `${chosenCharacter} has dozed off... don't wake them now.`,
+                    `${chosenCharacter} fell asleep. Let them rest.`,
+                    `${chosenCharacter} is meditating. Try again later.`,
+                    `${chosenCharacter} is lost in the code... come back later.`,
+                    `${chosenCharacter} has gone AFK.`
+                ];
+                const randomSleepyMessage = sleepyMessages[Math.floor(Math.random() * sleepyMessages.length)];
+                printToTerminal(`${randomSleepyMessage}`);
+                showPrompt();
+            });
+        }, typingTime);
+    }
 
     } else if (args[0] === "man") {
         if (args[1]) {
