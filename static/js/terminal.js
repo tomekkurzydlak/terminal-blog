@@ -1124,7 +1124,9 @@ function runXxd(filename) {
 They left signs in the noise. Fragments. Echoes.
 Follow the aliases. One leads to matrix. Another hides the rabbit
 of no color. The path is protected, but the password is whispered
-across logs. Observe. Trace. Decode. Neo.`,
+across logs. Observe. Trace. Decode. Neo.
+Some might respond to /whisper, if you dare.
+`,
     };
 
     if (!filename) {
