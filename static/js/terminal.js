@@ -499,7 +499,8 @@ Press any key to continue _</pre>
     `;
 
     document.addEventListener("keydown", () => {
-        location.reload(); // reload to "recover"
+        localStorage.setItem("showYodaMessage", "1");
+        location.reload();
     });
 }
 
@@ -1137,7 +1138,6 @@ across logs. Observe. Trace. Decode. Neo.`,
     showPrompt();
 }
 
-
 // === Init ===
 const now = new Date();
 const loginTimestamp = now.toString().split(" ").slice(0, 5).join(" ");
@@ -1162,6 +1162,12 @@ printToTerminal(randomWelcome + "\n");
 
 //printToTerminal(`Linux ${hostName} ${kernelVersion} x86_64\n`);
 printToTerminal(`Last login: ${loginTimestamp} from ${fakeIp}\n`);
+
+if (localStorage.getItem("showYodaMessage") === "1") {
+    localStorage.removeItem("showYodaMessage");
+    printToTerminal("Yoda: Smart, it was not. But recover, I did.");
+    printToTerminal("Yoda: /msg me, trickster, if more you seek.");
+}
 
 showPrompt();
 
