@@ -182,6 +182,7 @@ if (cmd === "run dino") {
     } else {
         const characters = ["Trinity", "Yoda", "Lord Vader", "Neo", "Morpheus", "The Oracle"];
         const chosenCharacter = characters[Math.floor(Math.random() * characters.length)];
+        printToTerminal(`${chosenCharacter} is typing...`);
 
         fetch('/api/chat', {
             method: 'POST',
@@ -190,7 +191,7 @@ if (cmd === "run dino") {
         })
         .then(response => response.json())
         .then(data => {
-            printToTerminal(`💬 ${chosenCharacter}: ${data.message}`);
+            printToTerminal(`${chosenCharacter}: ${data.message}`);
             showPrompt();
         })
         .catch(err => {
