@@ -174,6 +174,31 @@ if (cmd === "run dino") {
     } else if (args[0] === "history") {
         runHistory();
 
+    } else if (args[0] === "/msg" || args[0] === "/whisper" || args[0] === "/talk") {
+    const text = args.slice(1).join(" ");
+    if (!text) {
+        printToTerminal(`${args[0]}: missing message text.`);
+        showPrompt();
+    } else {
+        const characters = ["Trinity", "Yoda", "Lord Vader", "Neo", "Morpheus", "The Oracle"];
+        const chosenCharacter = characters[Math.floor(Math.random() * characters.length)];
+
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: `You are ${chosenCharacter}. Respond as ${chosenCharacter}, in their unique style. User says: ${text}` })
+        })
+        .then(response => response.json())
+        .then(data => {
+            printToTerminal(`💬 ${chosenCharacter}: ${data.message}`);
+            showPrompt();
+        })
+        .catch(err => {
+            console.error(err);
+            printToTerminal("Error communicating with the Oracle.");
+            showPrompt();
+        });}
+
     } else if (args[0] === "man") {
         if (args[1]) {
             printToTerminal(`No manual entry for ${args[1]}`);
