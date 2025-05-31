@@ -7,7 +7,7 @@ const machineChars = '.@...#.........^...&..-*.)_-+=...%...$...<.>.?.|.a..b.(..c
 
 const highlights = [
     'white_rabbit',
-    'follow the path',
+    'find the path',
     'matrix',
     'neo',
     'reverse code',
