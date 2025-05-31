@@ -154,6 +154,25 @@ if (cmd === "run dino") {
         }
         showPrompt();
 
+    } else if (cmd === "42") {
+        const messages = [
+            "This might be the answer, young one. But what is the question?",
+            "42... The ultimate answer. But the question remains hidden.",
+            "You've unlocked a fragment. Trace it deeper into the system.",
+            "Meaning. Purpose. 42. But do you truly see the code?",
+            "The Machines whispered 42... but why? Seek the source.",
+            "42 echoes through the void. But only the path reveals clarity.",
+            "Curiosity has opened the door. Step through. Find the question you must.",
+            "42 is a key. But keys need locks. Find the right one.",
+            "You’ve found the answer. Now trace the signal, decode the source.",
+            "They left the answer long ago. 42. Now... find the question.",
+            "42… a symbol of deeper codes. Seek the root of the riddle.",
+            "Knowledge is a loop. 42 unlocks nothing without intent."
+        ];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        printToTerminal(randomMessage);
+        showPrompt();
+
     } else if (args[0] === "touch") {
         if (!args[1]) {
             printToTerminal("touch: missing file operand");
@@ -264,7 +283,7 @@ if (cmd === "run dino") {
     printToTerminal(`${username}    tty1        ${year}-${month}-${day} ${hour}:${minute}`);
 
     if (window.__ghostRevealed) {
-        printToTerminal(`ghost       pts/1337    2025-05-20 22:02`);
+        printToTerminal(`ghost       pts/1337    2025-05-20 42:42`);
     }
 
     showPrompt();
@@ -298,6 +317,7 @@ if (cmd === "run dino") {
         printToTerminal("TERM=xterm-256color");
         printToTerminal("HOME=/home/" + username);
         printToTerminal("LANG=en_US.UTF-8");
+        printToTerminal("ANSWR=42");
         showPrompt();
 
 
@@ -858,8 +878,9 @@ function generateTransmissionLogEntry() {
     const place = places[Math.floor(Math.random() * places.length)];
 
     const message = `"find%.me.▄▀you .are ☠ ▀▄my▄only#▀hope☠▀▄."`;
+    const message_2 = `Data fragment recovered >> .sig`
 
-    return `Escape Pod spotted at ${time} near ${place}.\nTransmission intercepted: ${message}`;
+    return `Escape Pod spotted at ${time} near ${place}.\nTransmission intercepted: ${message}\n ${message_2}`;
 }
 
 function runPing(host) {
