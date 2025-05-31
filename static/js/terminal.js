@@ -317,7 +317,7 @@ if (cmd === "run dino") {
         printToTerminal("TERM=xterm-256color");
         printToTerminal("HOME=/home/" + username);
         printToTerminal("LANG=en_US.UTF-8");
-        printToTerminal("ANSWR=42");
+        printToTerminal("ANSWR=two/digits/second/is/half/the/first");
         showPrompt();
 
 
@@ -372,7 +372,7 @@ if (cmd === "run dino") {
 
         You we▄re not▄..supposed to reach this dep▄▀th
         But if you insi▀st.... ▄▀ consult the old stream...
-        ☠ ▀▄▄Coordin▀ates: te▀☠█t▀ towel.blinkenlights.nl
+        ☠ ▀▄▄Coordin▀ates: ▀☠█▀ towel.blinkenlights.nl
         `
     };
 
@@ -825,7 +825,7 @@ setTimeout(() => {
                             }, 5500);
 
                             setTimeout(() => {
-                                printToTerminal("  http://mysite.abc/awakening.html");
+                                printToTerminal("  http://mysite.abc/awakening-XX.html");
                                 showPrompt();
                             }, 7100);
                         }, 2500);
@@ -863,7 +863,7 @@ function printAsciiArtLineByLine(asciiArt, delay = 100) {
 
 function generateTransmissionLogEntry() {
     const places = [
-        "Zebes", "LV-426", "Proxima Centauri b", "Tau Ceti IV", "Pandora",
+        "Zebes", "LV-42", "Proxima Centauri b", "Tau Ceti IV", "Pandora",
         "Nexus Prime", "Charon", "Vulcan", "Europa", "Titan", "Ganymede",
         "Kepler-22b", "Erebus", "Helghan", "Kobol", "Yavin IV", "Dagobah",
         "Rhea", "Ceres", "Trappist-1e", "Hyperion", "Persephone", "Niflheim",
