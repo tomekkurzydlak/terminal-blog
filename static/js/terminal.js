@@ -317,7 +317,7 @@ if (cmd === "run dino") {
         printToTerminal("TERM=xterm-256color");
         printToTerminal("HOME=/home/" + username);
         printToTerminal("LANG=en_US.UTF-8");
-        printToTerminal("ANSWR=two/digits/second/is/half/the/first");
+        printToTerminal("ANSWR=two/digits/-/the/second/is/half/the/first");
         showPrompt();
 
 
