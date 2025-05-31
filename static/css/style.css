@@ -3,13 +3,15 @@ body {
     color: #33ff33;
     font-family: monospace;
     padding: 20px;
+    margin: 0;
 }
 
 .terminal {
     border: 1px solid #33ff33;
     background-color: #1e1e1e;
     font-family: monospace;
-    width: 620px;
+    width: 100%; /* change 620px to 100% */
+    max-width: 620px; /* Max width */
 }
 
 .terminal-header {
@@ -48,7 +50,8 @@ body {
 
 .terminal-window {
     border: 1px solid #33ff33;
-    width: 620px;
+    width: 100%; /* change to 100% */
+    max-width: 620px;
     margin-top: 30px;
     font-family: monospace;
     background-color: #1e1e1e;
@@ -56,21 +59,30 @@ body {
 }
 
 .page-layout {
-    display: flex;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 250px 620px 400px; /* fixed width of center col */
     gap: 20px;
-    flex-wrap: wrap;
+    align-items: start;
+    justify-content: center; /* center the grid */
+    max-width: 100%;
+    width: 100%;
+    /* DEBUG STYLES */
+    /* border: 2px solid red; */
+    /* position: relative; */
 }
 
 .right-column {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    flex: 1;
+    align-items: center;
+    /* DEBUG STYLES */
+    /* border: 2px solid blue; */
 }
 
 .terminal-bio {
-    width: 620px;
+    width: 100%;
+    max-width: 620px;
     overflow-wrap: anywhere;
     padding: 10px;
 }
@@ -79,11 +91,12 @@ body {
     border: 1px solid #33ff33;
     background-color: #1e1e1e;
     font-family: monospace;
-    flex: 0 0 250px;
     max-height: 90vh;
     overflow: hidden;
     position: sticky;
     top: 20px;
+    /* DEBUG STYLES */
+    /* border: 2px solid green; */
 }
 
 .article-content {
@@ -138,7 +151,7 @@ body {
     white-space: normal;
     text-align: left;
     padding: 10px;
-    overflow: hidden; /* hide scrollbar */
+    overflow: hidden;
 }
 
 .journal-log a {
@@ -150,10 +163,55 @@ body {
     text-decoration: underline;
 }
 
-/* responsive options */
+.hex-container {
+    display: flex;
+    flex-direction: row;
+    background: #1e1e1e;
+    font-family: monospace;
+    color: #33ff33;
+    max-height: 100vh; /* max height */
+    overflow: hidden;
+    gap: 10px; /* gap between cols */
+    /* DEBUG STYLES */
+    /* border: 2px solid yellow; */
+    /* position: relative; */
+}
+
+.hex-col1, .hex-col2, .hex-col3 {
+    white-space: pre;
+    overflow: hidden;
+    line-height: 1.2em;
+}
+
+.hex-col1 {
+    width: 80px;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.hex-col2 {
+    width: 300px;
+    padding-right: 5px;
+    box-sizing: border-box;
+}
+
+.hex-col3 {
+    width: 220px;
+    padding-right: 5px;
+    box-sizing: border-box;
+}
+
+.highlight {
+    color: #00ff66;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ff66;
+}
+
 @media (max-width: 1024px) {
     .page-layout {
+        display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
     }
 
     .journal-log {
@@ -170,5 +228,11 @@ body {
     .terminal,
     .terminal-bio {
         width: 100%;
+    }
+
+    .hex-container {
+        flex: 1 1 100%;
+        margin-left: 0;
+        height: auto;
     }
 }
