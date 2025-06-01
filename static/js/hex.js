@@ -14,7 +14,8 @@ const highlights = [
     'whisper',
     '42',
     'fortune',
-    'telnet'
+    'telnet',
+    'forty two'
 ];
 
 function generateLine(lineNum) {

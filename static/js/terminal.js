@@ -12,6 +12,19 @@ let terminalActive = true;
 let gameActive = false;
 let commandBuffer = "";
 
+let storyProgress = 0;
+let crumbsFound = 0;
+let flags = {
+    hasThePathRead: false,
+    hasFortuneRead: false,
+    hasMatrixRead: false,
+    hasNeoFound: false,
+    hasDinoFound: false,
+    hasTransmissionRead: false,
+    hasSigFound: false,
+    hasPathOpened: false
+};
+
 // === Terminal UI =====
 function printToTerminal(text) {
     const lines = text.split('\n');
@@ -48,6 +61,14 @@ function updateCurrentLine() {
 function handleCommand(cmd) {
     const args = cmd.split(" ");
 if (cmd === "run dino") {
+
+        if (cmd === "run dino" && !flags.hasDinoFound) {
+            crumbsFound++;
+            flags.hasDinoFound = true;
+            saveProgress();
+            updateProgressBars();
+        }
+
     printToTerminal("Launching dino game...");
     localStorage.setItem("runDinoAfterReload", "true");
 
@@ -393,6 +414,12 @@ if (cmd === "run dino") {
                     terminalActive = true;
                     if (buffer.trim().toLowerCase() === "white_rabbit") {
                         window.__ghostRevealed = true;
+                                if (!flags.hasPathOpened) {
+                                    storyProgress++;
+                                    flags.hasPathOpened = true;
+                                    saveProgress();
+                                    updateProgressBars();
+                                }
                         printToTerminal(file.content);
                     }
                      else {
@@ -450,6 +477,12 @@ if (cmd === "run dino") {
         showPrompt();
 
     } else if (["fortune", "cookie", "fortune cookie"].includes(cmd)) {
+        if (cmd === "fortune" && !flags.hasFortuneRead) {
+            crumbsFound++;
+            flags.hasFortuneRead = true;
+            saveProgress();
+            updateProgressBars();
+        }
         runFortune();
     } else if (["sudo", "su", "sudo su"].includes(cmd)) {
         runSudo();
@@ -458,9 +491,16 @@ if (cmd === "run dino") {
     } else if (cmd === "matrix") {
         printToTerminal("Follow the white rabbit, Neo");
         showPrompt();
+                if (cmd === "matrix" && !flags.hasMatrixRead) {
+            crumbsFound++;
+            flags.hasMatrixRead = true;
+            saveProgress();
+            updateProgressBars();
+        }
     } else if (cmd === "please") {
         printToTerminal("nope");
         showPrompt();
+
     } else if (cmd === "Neo" || cmd === "neo") {
     if (!document.getElementById("matrix-script")) {
         const script = document.createElement("script");
@@ -471,7 +511,12 @@ if (cmd === "run dino") {
     } else {
         runMatrixEffect();
     }
-
+    if (cmd === "neo" && !flags.hasNeoFound || cmd === "Neo" && !flags.hasNeoFound) {
+            crumbsFound++;
+            flags.hasNeoFound = true;
+            saveProgress();
+            updateProgressBars();
+        }
     } else {
         printToTerminal(`Command not found: ${cmd}`);
         showPrompt();
@@ -480,7 +525,7 @@ if (cmd === "run dino") {
 }
 
 document.addEventListener("keydown", function(e) {
-    if (!terminalActive) return; // nie przechwytuj, jeśli gra aktywna
+    if (!terminalActive) return;
 
     if (e.key === "Enter") {
         const cmd = commandBuffer.trim();
@@ -495,7 +540,7 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
-
+// FUNCTIONS
 //crash
 function showCrashScreen() {
     document.body.innerHTML = `
@@ -618,7 +663,7 @@ function runHistory() {
 function runPs() {
     printToTerminal("  PID TTY          TIME CMD");
     printToTerminal(" 1337 pts/0    00:00:01 dino.js");
-    printToTerminal(" 1984 pts/0    00:00:03 matrix.js");
+    printToTerminal(" 4242 pts/0    00:00:03 matrix.js");
     printToTerminal(" 2025 pts/0    00:00:00 terminal");
     showPrompt();
 }
@@ -628,7 +673,7 @@ function runTop() {
     printToTerminal("Tasks: 3 total, 1 running, 2 sleeping");
     printToTerminal("PID  USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND");
     printToTerminal("1337 guest     20   0   123m   12m   4m   R   0.3  0.1   0:01.01 dino.js");
-    printToTerminal("1984 guest     20   0   98m    8m    3m   S   0.0  0.1   0:03.25 matrix.js");
+    printToTerminal("1984 guest     42   0   42m    8m    3m   S   0.0  0.1   0:03.25 matrix.js");
     printToTerminal("2025 guest     20   0   105m   10m   5m   S   0.1  0.1   0:00.00 terminal");
     showPrompt();
 }
@@ -862,6 +907,12 @@ function printAsciiArtLineByLine(asciiArt, delay = 100) {
 }
 
 function generateTransmissionLogEntry() {
+        if (!flags.hasTransmissionRead) {
+            crumbsFound++;
+            flags.hasTransmissionRead = true;
+            saveProgress();
+            updateProgressBars();
+        }
     const places = [
         "Zebes", "LV-42", "Proxima Centauri b", "Tau Ceti IV", "Pandora",
         "Nexus Prime", "Charon", "Vulcan", "Europa", "Titan", "Ganymede",
@@ -1132,7 +1183,7 @@ function runLast() {
     printToTerminal(`${username.padEnd(9)}tty1         ${dateStr} ${timeStr}   still logged in`);
 
     if (localStorage.getItem("ghostRevealed") === "1" || window.__ghostRevealed) {
-        printToTerminal(`ghost     pts/1337     May 20 22:02   never logged out`);
+        printToTerminal(`ghost     pts/1337     May 20 22:42   never logged out`);
     } else {
         printToTerminal(`???       pts/1337     ??? ?? ??:??   unknown`);
     }
@@ -1161,6 +1212,33 @@ Some might respond to whisper, if you dare.
     showPrompt();
 }
 
+function updateProgressBars() {
+    const storyBar = document.getElementById('story-progress');
+    const crumbsBar = document.getElementById('crumbs-progress');
+    storyBar.style.width = `${(storyProgress / 5) * 100}%`;  // 5 kroków
+    crumbsBar.style.width = `${(crumbsFound / 10) * 100}%`;  // 10 okruchów
+}
+
+function saveProgress() {
+    const progressData = {
+        storyProgress,
+        crumbsFound,
+        flags
+    };
+    localStorage.setItem('terminalProgress', JSON.stringify(progressData));
+}
+
+function loadProgress() {
+    const savedData = localStorage.getItem('terminalProgress');
+    if (savedData) {
+        const progressData = JSON.parse(savedData);
+        storyProgress = progressData.storyProgress || 0;
+        crumbsFound = progressData.crumbsFound || 0;
+        flags = progressData.flags || flags;
+        updateProgressBars();
+    }
+}
+
 // === Init ===
 const now = new Date();
 const loginTimestamp = now.toString().split(" ").slice(0, 5).join(" ");
@@ -1182,7 +1260,7 @@ const welcomeMessages = [
 const randomWelcome = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
 
 printToTerminal(randomWelcome + "\n");
-
+loadProgress()
 //printToTerminal(`Linux ${hostName} ${kernelVersion} x86_64\n`);
 printToTerminal(`Last login: ${loginTimestamp} from ${fakeIp}\n`);
 
