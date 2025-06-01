@@ -54,12 +54,29 @@ Curious? The terminal’s waiting.
             </div>
         </div>
 
-        <div class="hex-container">
-            <!-- HEX section -->
-          <div class="hex-col1" id="hexCol1"></div>
-          <div class="hex-col2" id="hexCol2"></div>
-          <div class="hex-col3" id="hexCol3"></div>
+<!-- Hex container with progress bars -->
+    <div class="right-column-hex">
+        <div id="progress-section">
+            <div>
+                Story Progress
+                <div class="progress-container">
+                    <div id="story-progress" class="progress-bar"></div>
+                </div>
+            </div>
+            <div>
+                Artifacts Traced
+                <div class="progress-container">
+                    <div id="crumbs-progress" class="progress-bar"></div>
+                </div>
+            </div>
         </div>
+
+        <div class="hex-container">
+            <div class="hex-col1" id="hexCol1"></div>
+            <div class="hex-col2" id="hexCol2"></div>
+            <div class="hex-col3" id="hexCol3"></div>
+        </div>
+    </div>
     </div>
 
     <script src="/static/js/terminal.js"></script>
