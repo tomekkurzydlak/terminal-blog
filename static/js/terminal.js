@@ -22,7 +22,9 @@ let flags = {
     hasDinoFound: false,
     hasTransmissionRead: false,
     hasSigFound: false,
-    hasPathOpened: false
+    hasPathOpened: false,
+    hasTelnetFound: false,
+    hasCrashFound: false,
 };
 
 // === Terminal UI =====
@@ -563,6 +565,13 @@ Press any key to continue _</pre>
         </div>
     `;
 
+    if (!flags.hasCrashFound) {
+        crumbsFound++;
+        flags.hasCrashFound = true;
+        saveProgress();
+        updateProgressBars();
+    }
+
     document.addEventListener("keydown", () => {
         localStorage.setItem("showYodaMessage", "1");
         location.reload();
@@ -779,6 +788,14 @@ function runTelnet(host) {
         return;
     }
     if (host === "towel.blinkenlights.nl") {
+
+        if (!flags.hasTelnetFound) {
+            storyProgress++;
+            flags.hasTelnetFound = true;
+            saveProgress();
+            updateProgressBars();
+        }
+
         printToTerminal("Trying towel.blinkenlights.nl... Connected.");
         setTimeout(() => {
             printToTerminal("Escape character is '^]'.");
@@ -1206,6 +1223,14 @@ Some might respond to whisper, if you dare.
     } else if (hexFiles[filename]) {
         printToTerminal(`xxd: decoding ${filename}...`);
         printToTerminal(hexFiles[filename]);
+
+        if (!flags.hasSigFound) {
+            crumbsFound++;
+            flags.hasSigFound = true;
+            saveProgress();
+            updateProgressBars();
+        }
+
     } else {
         printToTerminal(`xxd: ${filename}: I/O error or no such file`);
     }
