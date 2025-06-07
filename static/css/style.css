@@ -169,7 +169,7 @@ body {
     background: #1e1e1e;
     font-family: monospace;
     color: #33ff33;
-    max-height: 100vh; /* max height */
+    max-height: 85vh; /* max height */
     overflow: hidden;
     gap: 10px; /* gap between cols */
     /* DEBUG STYLES */

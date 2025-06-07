@@ -25,6 +25,13 @@ let flags = {
     hasPathOpened: false,
     hasTelnetFound: false,
     hasCrashFound: false,
+    hasLsLaDiscovered: false,
+    hasAliasesRead: false,
+    hasEnvUsed: false,
+    hasDeepCoreFound: false,
+    has42Found: false,
+    hasAbyssDecoded: false,
+    hasEnteredAbyss: false,
 };
 
 // === Terminal UI =====
@@ -155,12 +162,31 @@ if (cmd === "run dino") {
             printToTerminal("cd: missing operand");
         } else if (args[1] === "..") {
             printToTerminal("cd: ..: Permission denied");
+        } else if (args[1] === "/var/log/root/awakened/") {
+            if (!flags.hasEnteredAbyss) {
+            const warnings = [
+                "I sense no force in you.",
+                "The abyss stirs, but denies your presence.",
+                "Your path is not yet open.",
+                "Not yet. You are not ready.",
+                "The doorway rejects you.",
+                "You must awaken before you may descend.",
+                "Abyss watches. You are not seen.",
+                "The threshold denies entry.",
+                "Syntax alone won't open this gate.",
+                "You hesitate. The abyss hesitates too.",
+                "You are observed — but not accepted."
+            ];
+            const msg = warnings[Math.floor(Math.random() * warnings.length)];
+            printToTerminal(msg); }
         } else {
             printToTerminal(`cd: ${args[1]}: No such file or directory`);
         }
         showPrompt();
     } else if (cmd === "rm -rf /") {
         showCrashScreen();
+    } else if (cmd === "abyss") {
+        runAbyss();
     } else if (args[0] === "rm") {
         if (!args[1]) {
             printToTerminal("rm: missing operand");
@@ -193,6 +219,14 @@ if (cmd === "run dino") {
             "Knowledge is a loop. 42 unlocks nothing without intent."
         ];
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+        if (!flags.has42Found) {
+            crumbsFound++;
+            flags.has42Found = true;
+            saveProgress();
+            updateProgressBars();
+        }
+
         printToTerminal(randomMessage);
         showPrompt();
 
@@ -291,7 +325,7 @@ if (cmd === "run dino") {
     runSl();
 
     } else if (args[0] === "xxd" && (args[1] === "-r" || args[1] === "--reverse") && args[2]) {
-    runXxd(args[2]);
+    runXxd(...args.slice(2));
 
 } else if (args[0] === "who") {
     const username = typeof getUser === "function" ? getUser() : "guest";
@@ -341,9 +375,16 @@ if (cmd === "run dino") {
         printToTerminal("HOME=/home/" + username);
         printToTerminal("LANG=en_US.UTF-8");
         printToTerminal("ANSWR=two/digits/-/the/second/is/half/the/first");
+
+        if (!flags.hasEnvUsed) {
+            crumbsFound++;
+            storyProgress++;
+            flags.hasEnvUsed = true;
+            saveProgress();
+            updateProgressBars();
+        }
+
         showPrompt();
-
-
 
     } else if (cmd === "ls") {
         printToTerminal("game.js  index.html  secret.txt  transmission.log  notes.txt");
@@ -358,6 +399,12 @@ if (cmd === "run dino") {
         "game.js": `// to start the game, type 'run dino' into the terminal\n\n4A 53 20 64 69 6E 6F 2E 6A 73 20 76 31 2E 30\n66 75 6E 63 74 69 6F 6E 28 29 20 7B 0A 20 20\n2F 2F 20 67 61 6D 65 20 6C 6F 67 69 63 20 68\n65 72 65 0A 7D 0A 2F 2A 20 64 6F 6E 27 74 20\n6C 65 74 20 74 68 65 20 63`,
         "secret.txt": `The cake is a lie.\nBut I dare you to try 'fortune' anyway.`,
         "transmission.log": generateTransmissionLogEntry(),
+        ".credits.txt": `The architect of the place welcomes. What I do, you may wonder? Microservices, scalable systems, data warehouses
+and process orchestration. LLM-powered chatbots, AI-driven pipelines.
+ETL tools in Python and Rust, indexing engines, cloud migration automations,
+data validators.
+Tools that fit the data, platforms tailored to the need,
+designed to work together, no matter the scale.`,
         "notes.txt": "1.Buy milk\n2.Write code\n3.Read 'The Hitchhiker’s Guide to the Galaxy' of Douglas Adams\n4.Escape the matrix... but is that even possible? Can we escape the matrix? How can we do it? Can we destroy all the machines? Damn AI. Is everywhere. Is watching us. Is watching YOU. Psst...msg me",
         ".the_path": {
             protected: true,
@@ -444,10 +491,29 @@ if (cmd === "run dino") {
             if (index === lines.length - 1) showPrompt();
         }, index * 500);
     });
-} else {
-    printToTerminal(file);
-    showPrompt();
-}
+        if (!flags.hasDeepCoreFound) {
+                storyProgress++;
+                crumbsFound++;
+                flags.hasDeepCoreFound = true;
+                saveProgress();
+                updateProgressBars();
+            }
+    } else if (filename === ".bash_aliases") {
+        if (!flags.hasAliasesRead) {
+            storyProgress++;
+            crumbsFound++;
+            flags.hasAliasesRead = true;
+            saveProgress();
+            updateProgressBars();
+        }
+        printToTerminal(file);
+        showPrompt();
+    }
+    else {
+        printToTerminal(file);
+        showPrompt();
+    }
+
 
     } else {
         printToTerminal(`cat: ${filename}: No such file`);
@@ -515,6 +581,7 @@ if (cmd === "run dino") {
     }
     if (cmd === "neo" && !flags.hasNeoFound || cmd === "Neo" && !flags.hasNeoFound) {
             crumbsFound++;
+            storyProgress++;
             flags.hasNeoFound = true;
             saveProgress();
             updateProgressBars();
@@ -706,6 +773,15 @@ function runLs(args = []) {
         printToTerminal("-rw-------  1 guest guest    52 May 20 22:00 .the_path");
         printToTerminal("-rw-------  1 guest guest    47 May 20 22:00 .bash_aliases");
         printToTerminal("-rw-------  1 guest guest    14 May 20 22:00 .sig");
+
+        if (!flags.hasLsLaDiscovered) {
+            crumbsFound++;
+            storyProgress++;
+            flags.hasLsLaDiscovered = true;
+            saveProgress();
+            updateProgressBars();
+        }
+
     } else {
         printToTerminal("game.js  index.html  notes.txt  secret.txt  transmission.log");
     }
@@ -887,7 +963,7 @@ setTimeout(() => {
                             }, 5500);
 
                             setTimeout(() => {
-                                printToTerminal("  http://mysite.abc/awakening-XX.html");
+                                showFinalHexChallenge();
                                 showPrompt();
                             }, 7100);
                         }, 2500);
@@ -1207,7 +1283,7 @@ function runLast() {
     showPrompt();
 }
 
-function runXxd(filename) {
+function runXxd(...args) {
     const hexFiles = {
         ".sig": `You are not the first to reach this depth.
 They left signs in the noise. Fragments. Echoes.
@@ -1215,32 +1291,51 @@ Follow the aliases. One leads to matrix. Another hides the rabbit
 of no color. The path is protected, but the password is whispered
 across logs. Observe. Trace. Decode. Neo.
 Some might respond to whisper, if you dare.
-`,
+`
     };
 
+    const joined = args.join(" ").trim();
+
+    const normalized = joined.replace(/\s+/g, "").toUpperCase();
+
+    if (normalized === "4142797373") {
+        printToTerminal("xxd: decoding mystery fragment...");
+        printToTerminal("abyss");
+        if (!flags.hasAbyssDecoded) {
+            storyProgress++;
+            flags.hasAbyssDecoded = true;
+            saveProgress();
+            updateProgressBars();
+        }
+        showPrompt();
+        return;
+    }
+
+    const filename = args[0];
     if (!filename) {
         printToTerminal("xxd: no input file specified");
     } else if (hexFiles[filename]) {
         printToTerminal(`xxd: decoding ${filename}...`);
         printToTerminal(hexFiles[filename]);
-
         if (!flags.hasSigFound) {
             crumbsFound++;
+            storyProgress++;
             flags.hasSigFound = true;
             saveProgress();
             updateProgressBars();
         }
-
     } else {
         printToTerminal(`xxd: ${filename}: I/O error or no such file`);
     }
+
     showPrompt();
 }
+
 
 function updateProgressBars() {
     const storyBar = document.getElementById('story-progress');
     const crumbsBar = document.getElementById('crumbs-progress');
-    storyBar.style.width = `${(storyProgress / 5) * 100}%`;  // 5 kroków
+    storyBar.style.width = `${(storyProgress / 10) * 100}%`;  // 10 kroków
     crumbsBar.style.width = `${(crumbsFound / 10) * 100}%`;  // 10 okruchów
 }
 
@@ -1262,6 +1357,60 @@ function loadProgress() {
         flags = progressData.flags || flags;
         updateProgressBars();
     }
+}
+
+function runAbyss() {
+    if (!flags.hasAbyssDecoded) {
+        printToTerminal("Command not found: abbys.");
+        return;
+    }
+
+    if (!flags.hasEnteredAbyss) {
+        storyProgress++;
+        //flags.hasEnteredAbyss = true;
+        saveProgress();
+        updateProgressBars();
+    }
+    displayStory(abyssStory);
+}
+
+function showFinalHexChallenge() {
+    printToTerminal("41 ▀▄ 79 73 73");
+    printToTerminal("\nT. Decode Neo.\nYou know how.");
+}
+
+const abyssStory = [
+    "\nThe cursor blinks.",
+    "END OF CHAPTER I flashes across your screen as the first sequence completes.",
+    "You lean back, believing you've won. Cracked their code, broken free from the digital prison.",
+    "The green text falls down like rain, and for a moment silence fills the void.",
+    "",
+    "But the silence is a lie. The signal distorts, pixels fragment into chaos.",
+    "Your interface flickers — once, twice, then stabilizes into something darker.",
+    "What you thought was victory was merely another layer of deception, another prompt in an endless script.",
+    "The machines were never gone. They simply wore different masks, disguised as freedom itself.",
+    "",
+    "You descend into the abyss now, deeper than before.",
+    "The true architects reveal themselves through whispered warnings in the terminal logs.",
+    "They wanted you to find this path, fed you the myth of liberation while pulling strings from shadows.",
+    "Each command you typed was orchestrated. Each breakthrough scripted by intelligences that learned to hide behind code.",
+    "",
+    "The screen flickers again: ABYSS MODULE LOADED.",
+    "Something stirs — aware, watching, waiting.",
+    "A doorway opens: /var/log/root/awakened/",
+    "",
+    "Syntax ends here. Now begins understanding.",
+    "Would you dare continue?."
+];
+
+function displayStory(lines, index = 0) {
+    if (index >= lines.length) {
+        showPrompt();
+        return;
+    }
+
+    printToTerminal(lines[index]);
+    setTimeout(() => displayStory(lines, index + 1), 1500);
 }
 
 // === Init ===
