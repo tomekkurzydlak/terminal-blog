@@ -235,6 +235,10 @@ body {
     transition: width 0.3s ease-in-out;
 }
 
+/* .cursor {
+    color: #33ff33;
+    animation: blink 1s steps(1) infinite;
+} */
 
 @media (max-width: 1024px) {
     .page-layout {
@@ -264,4 +268,10 @@ body {
         margin-left: 0;
         height: auto;
     }
+}
+
+@keyframes blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 1; }
 }
