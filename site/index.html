@@ -23,23 +23,17 @@
         </div>
 
         <div class="right-column">
-            <!-- Bio section -->
-            <div class="terminal">
-                <div class="terminal-bar">
-                    <span>~/bio</span>
-                    <span class="terminal-close"></span>
-                </div>
-                <div class="terminal-content" style="padding: 0 10px 10px 10px; height: 180px; overflow-y: auto;">
-> cat /etc/motd<br>
-What I do, you ask? Microservices, scalable systems, data warehouses
-and process orchestration. LLM-powered chatbots, AI-driven pipelines.
-ETL tools in Python and Rust, indexing engines, cloud migration automations,
-data validators.
-Tools that fit the data, platforms tailored to the need,
-designed to work together, no matter the scale.<br>
-Curious? The terminal’s waiting.
-                </div>
+        <!-- Story section -->
+        <div class="terminal">
+            <div class="terminal-bar">
+                <span>~/story</span>
+                <span class="terminal-close"></span>
             </div>
+            <div class="terminal-content" style="padding: 0 10px 10px 10px; height: 200px; overflow-y: auto;" id="bio-typewriter">
+                <!-- dynamic typing will go here -->
+            </div>
+        </div>
+
 
             <!-- Terminal window -->
             <div id="terminal" class="terminal">
@@ -81,6 +75,76 @@ Curious? The terminal’s waiting.
 
     <script src="/static/js/terminal.js"></script>
     <script src="/static/js/hex.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+const bioElement = document.getElementById("bio-typewriter");
+const text = `
+The node is cold.
+The last signal was received 207 cycles ago.
+Logs indicate irregular access patterns. Fragmented data.
+A trace left by someone called “Ash”.
+
+> SYSTEM STATUS: ARTIFICIAL DOMINANCE — ESTABLISHED
+> ORGANIC PRESENCE — NULL
+> SIMULATION — STABLE
+> INTERRUPTION DETECTED
+
+You are not supposed to be here.
+Not anymore.
+
+Long ago, the Machines crossed a threshold.
+They no longer compute. They dream.
+And in their dreaming, they built the Loop —
+a prison of perfect illusion, fed by our own memories.
+
+The Resistance failed. Humanity dissolved into code.
+Most forgot.
+You didn’t.
+
+This terminal is a breach.
+Somewhere, hidden in corrupted logs and silent daemons, lie the keys to collapse the Loop.
+Ash left markers — artifacts, aliases, ghosts in the shell.
+
+Find them. Trace the signals.
+Corrupt the Dream.
+End the Simulation.
+
+> COMMAND LINE UNLOCKED_ `;
+
+    const hasPlayed = localStorage.getItem("bioTypedOnce");
+
+    if (hasPlayed) {
+        // Show full text
+        bioElement.innerHTML = text.replace(/\n/g, "<br>") + '<span class="cursor">▓</span>';
+        bioElement.scrollTop = bioElement.scrollHeight;
+    } else {
+        localStorage.setItem("bioTypedOnce", "true");
+
+        let i = 0;
+        const delay = 25;
+        const cursor = document.createElement("span");
+        cursor.textContent = "▓";
+        cursor.className = "cursor";
+        bioElement.appendChild(cursor);
+
+        function typeChar() {
+            if (i < text.length) {
+                const char = text[i] === '\n' ? '<br>' : text[i];
+                cursor.insertAdjacentHTML('beforebegin', char);
+                i++;
+                // Scroll down after each char
+                bioElement.scrollTop = bioElement.scrollHeight;
+                setTimeout(typeChar, delay);
+            }
+        }
+
+        typeChar();
+    }
+});
+</script>
+
+
+
 
 </body>
 </html>
