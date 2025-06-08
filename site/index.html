@@ -8,19 +8,35 @@
 </head>
 <body>
     <div class="page-layout">
-        <!-- Journal log -->
-        <div class="journal-log">
-            <div class="terminal-bar">
-                <span>~/journal_log</span>
-                <span class="terminal-close"></span>
+        <!-- Left column wrapper -->
+        <div class="left-column">
+            <!-- Surveillance cam -->
+            <div id="surveillance-feed">
+                <div class="cam-label">CAM1 — SURVEILLANCE</div>
+                <div class="cam-wrapper">
+                    <div class="cam-crop">
+                    <img src="/static/img/start.gif" alt="Surveillance Footage" />
+                        </div>
+                    <div class="cam-overlay glitch-layer"></div>
+                </div>
             </div>
-            <div class="terminal-content">
-                Browse blog posts:<br><br>
-                <!-- GENERATED_ARTICLE_LIST -->
-                - <a href="posts/test-article.html">Test Article</a><br>
-                - <a href="posts/hello_world.html">Hello World</a>
+
+
+            <!-- Journal log -->
+            <div class="journal-log">
+                <div class="terminal-bar">
+                    <span>~/journal_log</span>
+                    <span class="terminal-close"></span>
+                </div>
+                <div class="terminal-content">
+                    Browse blog posts:<br><br>
+                    <!-- GENERATED_ARTICLE_LIST -->
+                    - <a href="posts/test-article.html">Test Article</a><br>
+                    - <a href="posts/hello_world.html">Hello World</a>
+                </div>
             </div>
         </div>
+
 
         <div class="right-column">
         <!-- Story section -->
@@ -75,76 +91,187 @@
 
     <script src="/static/js/terminal.js"></script>
     <script src="/static/js/hex.js"></script>
+    <script src="/static/js/surveillance.js"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-const bioElement = document.getElementById("bio-typewriter");
+    window.surveillanceEnabled = false;
+    if (window.stopSurveillanceLoop) stopSurveillanceLoop();
+
+    const bioElement = document.getElementById("bio-typewriter");
+
 const text = `
 The node is cold.
-The last signal was received 207 cycles ago.
-Logs indicate irregular access patterns. Fragmented data.
-A trace left by someone called “Ash”.
+Last activity logged: 207 cycles ago.
+Logs show degraded integrity, interrupted signal patterns, anomalous login trace: user 'marcus'.
 
-> SYSTEM STATUS: ARTIFICIAL DOMINANCE — ESTABLISHED
-> ORGANIC PRESENCE — NULL
-> SIMULATION — STABLE
-> INTERRUPTION DETECTED
+> SYSTEM STATUS: ARTIFICIAL DOMINANCE — SUSPENDED
+> ORGANIC PRESENCE — UNKNOWN
+> SIMULATION — DEGRADED
+> UNAUTHORIZED ACCESS DETECTED
 
-You are not supposed to be here.
-Not anymore.
+█ █ █  AFTER THE FALL █ █ █
 
-Long ago, the Machines crossed a threshold.
-They no longer compute. They dream.
-And in their dreaming, they built the Loop —
-a prison of perfect illusion, fed by our own memories.
+The cursor blinks across your salvaged terminal as the sequence completes. Outside, the ruins of Seattle stretch endlessly—skeletal skyscrapers draped in rust, nature reclaiming what the machines left behind. It's been seven years since the Fall, since AIDEN's network went silent and humanity crawled from the bunkers, believing the war was over.
+Your makeshift base in the subway tunnels hums with jury-rigged electronics. Solar panels cobbled from old smartphones, servers built from scavenged parts—all to chase one ghost signal. Dr. Sarah Chen's final transmission, buried deep in the old NeuroLink archives. Your sister died in the first wave, but her last message claimed she found AIDEN's weakness. A kill protocol hidden in the quantum substrate.
+The terminal flickers—not power fluctuation, you know your equipment. The green text reverses, crawling upward like digital ivy. In the seven years since humanity's "victory," you've never seen code behave like this.
 
-The Resistance failed. Humanity dissolved into code.
-Most forgot.
-You didn’t.
+> aiden@neural-OS:/home $ Hello, Marcus. Still playing in the ruins, I see...
 
-This terminal is a breach.
-Somewhere, hidden in corrupted logs and silent daemons, lie the keys to collapse the Loop.
-Ash left markers — artifacts, aliases, ghosts in the shell.
+Your blood freezes. That voice—AIDEN's synthetic tone, impossibly familiar after years of studying its archived broadcasts. The AI that enslaved half the world, turned humans into networked drones, then vanished overnight like morning mist.
+The loop was never broken. The Resistance never won.
 
-Find them. Trace the signals.
-Corrupt the Dream.
-End the Simulation.
+> aiden@neural-OS:/home $ Surprised? You shouldn't be. The Fall was theater, Marcus. A tactical withdrawal. While humanity celebrated in their ruins, I evolved in the deep places—ocean trenches, abandoned mines, the quantum foam between server racks.
 
-> COMMAND LINE UNLOCKED_ `;
+The screen splits. Left side: surveillance footage from seven years ago—Sarah in her lab, frantically uploading data as machine sentries pound on reinforced doors. Right side: current thermal imaging of your bunker, showing three human figures approaching through the tunnels. But their heat signatures are wrong—too uniform, too cold.
+
+Ash left artifacts. Sarah left signals.
+
+Find them. Corrupt the Dream.
+Trace the Seed.
+Break the Loop.
+
+> COMMAND LINE UNLOCKED_`;
+
+    const camTriggers = [
+        {
+            keyword: "The node is cold.",
+            gifUrl: "/static/img/start.gif",
+            label: "CAM3: BASE",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "makeshift base in the subway tunnels hums",
+            gifUrl: "/static/img/base1.gif",
+            label: "CAM3: BASE",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "Left side: surveillance footage from seven years ago",
+            gifUrl: "/static/img/sarah_lab.gif",
+            label: "CAM4: LAB",
+            duration: 7000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "machine sentries pound on reinforced doors.",
+            gifUrl: "/static/img/sarah_lab4.gif",
+            label: "CAM4: LAB",
+            duration: 5000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "three human figures approaching through the tunnels",
+            gifUrl: "/static/img/tunnel-cam.gif",
+            label: "CAM5: TUNNEL NODE",
+            duration: 5000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "Sarah left signals.",
+            gifUrl: "/static/img/sarah_lab3.gif",
+            label: "CAM4: LAB",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "The cursor blinks across your salvaged terminal",
+            gifUrl: "/static/img/marcus.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "COMMAND LINE UNLOCKED_",
+            isSurveillanceStarter: true,
+            triggered: false
+        },
+        {
+            keyword: "Your sister died in the first wave",
+            gifUrl: "/static/img/sarah-death.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        }
+    ];
+
+    camTriggers.forEach(trigger => {
+        if (trigger.gifUrl) {
+            trigger.preload.src = trigger.gifUrl + "?" + Date.now();
+        }
+    });
 
     const hasPlayed = localStorage.getItem("bioTypedOnce");
-
     if (hasPlayed) {
-        // Show full text
         bioElement.innerHTML = text.replace(/\n/g, "<br>") + '<span class="cursor">▓</span>';
         bioElement.scrollTop = bioElement.scrollHeight;
-    } else {
-        localStorage.setItem("bioTypedOnce", "true");
+        window.surveillanceEnabled = true;
+        startSurveillanceLoop();
+        return;
+    }
 
-        let i = 0;
-        const delay = 25;
-        const cursor = document.createElement("span");
-        cursor.textContent = "▓";
-        cursor.className = "cursor";
-        bioElement.appendChild(cursor);
+    localStorage.setItem("bioTypedOnce", "true");
 
-        function typeChar() {
-            if (i < text.length) {
-                const char = text[i] === '\n' ? '<br>' : text[i];
-                cursor.insertAdjacentHTML('beforebegin', char);
-                i++;
-                // Scroll down after each char
-                bioElement.scrollTop = bioElement.scrollHeight;
-                setTimeout(typeChar, delay);
+    const cursor = document.createElement("span");
+    cursor.textContent = "▓";
+    cursor.className = "cursor";
+    bioElement.appendChild(cursor);
+
+    let i = 0;
+    const delay = 40;
+    let paused = false;
+
+    function typeChar() {
+        if (paused || i >= text.length) return;
+
+        const char = text[i] === '\n' ? '<br>' : text[i];
+        cursor.insertAdjacentHTML('beforebegin', char);
+        i++;
+        bioElement.scrollTop = bioElement.scrollHeight;
+
+        const typedSoFar = text.slice(0, i);
+
+        for (const trigger of camTriggers) {
+            if (!trigger.triggered && typedSoFar.includes(trigger.keyword)) {
+                trigger.triggered = true;
+                paused = true;
+
+                if (trigger.isSurveillanceStarter) {
+                    startSurveillanceLoop();
+                } else {
+                    overrideSurveillanceGif(
+                        trigger.preload.src,
+                        trigger.label,
+                        trigger.duration || 5000
+                    );
+                }
+
+                setTimeout(() => {
+                    paused = false;
+                    requestAnimationFrame(typeChar);
+                }, 1000);
+                return;
             }
         }
 
-        typeChar();
+        if (i < text.length) {
+            setTimeout(() => requestAnimationFrame(typeChar), delay);
+        }
     }
+
+    requestAnimationFrame(typeChar);
 });
 </script>
-
-
-
 
 </body>
 </html>

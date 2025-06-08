@@ -240,6 +240,116 @@ body {
     animation: blink 1s steps(1) infinite;
 } */
 
+#surveillance-feed {
+  border: 1px solid #33ff33;
+  padding: 4px;
+  margin-bottom: 1rem;
+  position: relative;
+  animation: flicker 1.2s infinite alternate;
+}
+
+#surveillance-feed .cam-label {
+  color: #33ff33;
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+  text-align: left;
+  letter-spacing: 0.1em;
+}
+
+#surveillance-feed img {
+  width: 100%;
+  filter:
+    grayscale(100%)
+    sepia(100%)
+    hue-rotate(55deg)
+    saturate(3)
+    contrast(0.8)
+    brightness(0.7);
+  image-rendering: pixelated;
+}
+
+
+@keyframes flicker {
+  0%   { opacity: 0.85; }
+  50%  { opacity: 0.95; }
+  100% { opacity: 0.9; }
+}
+
+.hidden {
+  display: none;
+}
+
+.cam-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.cam-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+}
+
+.cam-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.glitch-layer {
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(51, 255, 51, 0.05) 0px,
+        rgba(51, 255, 51, 0.05) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    animation: glitchAnim 1.5s infinite;
+    mix-blend-mode: screen;
+}
+
+/*.cam-crop {
+  height: 100%;
+  width: 100%;
+  clip-path: inset(10% 0 10% 0); /* utnie 25% wysokości: po 12.5% z góry i z dołu
+}
+*/
+
+
+
+@keyframes glitchAnim {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.08;
+  }
+  20% {
+    transform: translateY(1px);
+  }
+  40% {
+    transform: translateY(-1px);
+    opacity: 0.12;
+  }
+  60% {
+    transform: translateY(0px);
+  }
+  80% {
+    transform: translateY(1px);
+    opacity: 0.06;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.1;
+  }
+}
+
+
 @media (max-width: 1024px) {
     .page-layout {
         display: flex;

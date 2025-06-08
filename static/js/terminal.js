@@ -1337,8 +1337,8 @@ Some might respond to whisper, if you dare.
 function updateProgressBars() {
     const storyBar = document.getElementById('story-progress');
     const crumbsBar = document.getElementById('crumbs-progress');
-    storyBar.style.width = `${(storyProgress / 10) * 100}%`;  // 10 kroków
-    crumbsBar.style.width = `${(crumbsFound / 10) * 100}%`;  // 10 okruchów
+    storyBar.style.width = `${(storyProgress / 10) * 100}%`;  // 10 steps
+    crumbsBar.style.width = `${(crumbsFound / 20) * 100}%`;  // 20 crumbs
 }
 
 function saveProgress() {
