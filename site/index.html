@@ -15,7 +15,7 @@
                 <div class="cam-label">CAM1 — SURVEILLANCE</div>
                 <div class="cam-wrapper">
                     <div class="cam-crop">
-                    <img src="/static/img/start.gif" alt="Surveillance Footage" />
+                    <img src="/static/img/cam2.gif" alt="Surveillance Footage" />
                         </div>
                     <div class="cam-overlay glitch-layer"></div>
                 </div>
@@ -105,12 +105,8 @@ The node is cold.
 Last activity logged: 207 cycles ago.
 Logs show degraded integrity, interrupted signal patterns, anomalous login trace: user 'marcus'.
 
-> SYSTEM STATUS: ARTIFICIAL DOMINANCE — SUSPENDED
 > ORGANIC PRESENCE — UNKNOWN
 > SIMULATION — DEGRADED
-> UNAUTHORIZED ACCESS DETECTED
-
-█ █ █  AFTER THE FALL █ █ █
 
 The cursor blinks across your salvaged terminal as the sequence completes. Outside, the ruins of Seattle stretch endlessly—skeletal skyscrapers draped in rust, nature reclaiming what the machines left behind. It's been seven years since the Fall, since AIDEN's network went silent and humanity crawled from the bunkers, believing the war was over.
 Your makeshift base in the subway tunnels hums with jury-rigged electronics. Solar panels cobbled from old smartphones, servers built from scavenged parts—all to chase one ghost signal. Dr. Sarah Chen's final transmission, buried deep in the old NeuroLink archives. Your sister died in the first wave, but her last message claimed she found AIDEN's weakness. A kill protocol hidden in the quantum substrate.
@@ -136,16 +132,112 @@ Break the Loop.
     const camTriggers = [
         {
             keyword: "The node is cold.",
-            gifUrl: "/static/img/start.gif",
+            gifUrl: "/static/img/cam2.gif",
             label: "CAM3: BASE",
             duration: 20000,
             triggered: false,
             preload: new Image()
         },
         {
-            keyword: "makeshift base in the subway tunnels hums",
+            keyword: "> SIMULATION — DEGRADED",
+            gifUrl: "/static/img/marcus.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+                {
+            keyword: "Outside, the ruins of Seattle",
+            gifUrl: "/static/img/cam6.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "skyscrapers draped in rust, nature reclaiming",
+            gifUrl: "/static/img/cam5.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "It's been seven years since the Fall",
+            gifUrl: "/static/img/wars-over0.gif",
+            label: "CAM3: BASE",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+                {
+            keyword: "from the bunkers, believing the",
+            gifUrl: "/static/img/wars-over1.gif",
+            label: "CAM3: BASE",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "makeshift base in the subway tunnels",
+            gifUrl: "/static/img/enter_the_tunnel.gif",
+            label: "CAM3: BASE",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "Solar panels cobbled",
             gifUrl: "/static/img/base1.gif",
             label: "CAM3: BASE",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "chase one ghost signal",
+            gifUrl: "/static/img/base2.gif",
+            label: "CAM3: BASE",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "The terminal flickers—not power fluctuation",
+            gifUrl: "/static/img/cam2.gif",
+            label: "CAM1: YOU",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "crawling upward like digital ivy",
+            gifUrl: "/static/img/marcus2.gif",
+            label: "CAM1: YOU",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "you've never seen code behave like this",
+            gifUrl: "/static/img/marcus3.gif",
+            label: "CAM1: YOU",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "The AI that enslaved half",
+            gifUrl: "/static/img/enslaved1.gif",
+            label: "CAM1: YOU",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "then vanished overnight like morning mist.",
+            gifUrl: "/static/img/enslaved2.gif",
+            label: "CAM1: YOU",
             duration: 6000,
             triggered: false,
             preload: new Image()
@@ -182,14 +274,7 @@ Break the Loop.
             triggered: false,
             preload: new Image()
         },
-        {
-            keyword: "The cursor blinks across your salvaged terminal",
-            gifUrl: "/static/img/marcus.gif",
-            label: "CAM1: YOU",
-            duration: 20000,
-            triggered: false,
-            preload: new Image()
-        },
+
         {
             keyword: "COMMAND LINE UNLOCKED_",
             isSurveillanceStarter: true,
@@ -197,7 +282,7 @@ Break the Loop.
         },
         {
             keyword: "Your sister died in the first wave",
-            gifUrl: "/static/img/sarah-death.gif",
+            gifUrl: "/static/img/sarah-death-lr.gif",
             label: "CAM1: YOU",
             duration: 20000,
             triggered: false,
