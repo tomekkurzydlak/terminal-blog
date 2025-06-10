@@ -322,6 +322,33 @@ body {
 }
 */
 
+#bio-typewriter {
+    position: relative;
+    min-height: 200px; /* lub więcej jeśli potrzebujesz miejsca */
+}
+
+.start-overlay-inside {
+    position: absolute;
+    top: 50%;
+    left: 500%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    z-index: 2;
+}
+
+
+.start-game-link {
+    color: #33ff33;
+    font-family: monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.start-game-link:hover {
+    text-decoration: underline;
+}
+
 
 
 @keyframes glitchAnim {

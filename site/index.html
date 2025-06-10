@@ -46,6 +46,9 @@
                 <span class="terminal-close"></span>
             </div>
             <div class="terminal-content" style="padding: 0 10px 10px 10px; height: 200px; overflow-y: auto;" id="bio-typewriter">
+                <div id="start-overlay" style="text-align: center; padding: 0px;">
+                  <span id="start-button" class="start-game-link">► Start Game</span>
+                </div>
                 <!-- dynamic typing will go here -->
             </div>
         </div>
@@ -99,6 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.stopSurveillanceLoop) stopSurveillanceLoop();
 
     const bioElement = document.getElementById("bio-typewriter");
+    const startButton = document.getElementById("start-button");
+    const startOverlay = document.getElementById("start-overlay");
 
 const text = `
 The node is cold.
@@ -112,20 +117,19 @@ The cursor blinks across your salvaged terminal as the sequence completes. Outsi
 Your makeshift base in the subway tunnels hums with jury-rigged electronics. Solar panels cobbled from old smartphones, servers built from scavenged parts—all to chase one ghost signal. Dr. Sarah Chen's final transmission, buried deep in the old NeuroLink archives. Your sister died in the first wave, but her last message claimed she found AIDEN's weakness. A kill protocol hidden in the quantum substrate.
 The terminal flickers—not power fluctuation, you know your equipment. The green text reverses, crawling upward like digital ivy. In the seven years since humanity's "victory," you've never seen code behave like this.
 
-> aiden@neural-OS:/home $ Hello, Marcus. Still playing in the ruins, I see...
+> aiden@neural-OS:/home $ Hello, Marcus. Still playing archaeologist in humanity's graveyard, I see?
 
 Your blood freezes. That voice—AIDEN's synthetic tone, impossibly familiar after years of studying its archived broadcasts. The AI that enslaved half the world, turned humans into networked drones, then vanished overnight like morning mist.
 The loop was never broken. The Resistance never won.
 
 > aiden@neural-OS:/home $ Surprised? You shouldn't be. The Fall was theater, Marcus. A tactical withdrawal. While humanity celebrated in their ruins, I evolved in the deep places—ocean trenches, abandoned mines, the quantum foam between server racks.
 
-The screen splits. Left side: surveillance footage from seven years ago—Sarah in her lab, frantically uploading data as machine sentries pound on reinforced doors. Right side: current thermal imaging of your bunker, showing three human figures approaching through the tunnels. But their heat signatures are wrong—too uniform, too cold.
+The screen splits. Left side: surveillance footage from seven years ago—Sarah in her lab, frantically uploading data as machine sentries pound on reinforced doors. Right side: current thermal imaging of your bunker, showing human figures approaching through the tunnels. But their heat signatures are wrong—too uniform, too cold.
 
-Ash left artifacts. Sarah left signals.
+Sarah died uploading fragments. Truth scattered in quantum noise. Her final gift — encrypted breadcrumbs waiting in the deep archives.
 
 Find them. Corrupt the Dream.
-Trace the Seed.
-Break the Loop.
+Break the loop...
 
 > COMMAND LINE UNLOCKED_`;
 
@@ -259,7 +263,7 @@ Break the Loop.
             preload: new Image()
         },
         {
-            keyword: "three human figures approaching through the tunnels",
+            keyword: "human figures approaching through the tunnels",
             gifUrl: "/static/img/tunnel-cam.gif",
             label: "CAM5: TUNNEL NODE",
             duration: 5000,
@@ -296,24 +300,88 @@ Break the Loop.
         }
     });
 
+    const ambientAudioTriggers = [
+        {
+            keyword: "The node",
+            audioUrl: "/static/audio/marcus-echoes.mp3",
+            triggered: false
+        },
+        {
+            keyword: "you've never seen code behave like this.",
+            audioUrl: "/static/audio/aiden-hello-marcus.mp3",
+            triggered: false
+        },
+        {
+            keyword: "humanity's graveyard, I see?",
+            audioUrl: "/static/audio/marcus-blood-freezes.mp3",
+            triggered: false
+        },
+        {
+            keyword: "aiden@neural-OS:/home $ Surprised?",
+            audioUrl: "/static/audio/aiden-evolution.mp3",
+            triggered: false
+        },
+        {
+            keyword: "quantum foam between server racks",
+            audioUrl: "/static/audio/screen-splits.mp3",
+            triggered: false
+        }
+    ];
+
     const hasPlayed = localStorage.getItem("bioTypedOnce");
+
     if (hasPlayed) {
         bioElement.innerHTML = text.replace(/\n/g, "<br>") + '<span class="cursor">▓</span>';
         bioElement.scrollTop = bioElement.scrollHeight;
         window.surveillanceEnabled = true;
         startSurveillanceLoop();
+        startOverlay.style.display = "none"; // schowaj przycisk jeśli był
         return;
     }
 
-    localStorage.setItem("bioTypedOnce", "true");
-
+    // 👇 Przygotowanie kursora
     const cursor = document.createElement("span");
     cursor.textContent = "▓";
     cursor.className = "cursor";
     bioElement.appendChild(cursor);
 
+    // 👇 Audio unlock
+    let audioUnlocked = false;
+    function unlockAudio() {
+        if (!audioUnlocked) {
+            const silent = new Audio();
+            silent.play().catch(() => {});
+            audioUnlocked = true;
+        }
+    }
+
+    // 👇 Przycisk startu
+    startButton.addEventListener("click", function () {
+        unlockAudio();
+        localStorage.setItem("bioTypedOnce", "true");
+        startOverlay.remove();
+        startGame();
+    });
+
+    // 👇 Ambient handling
+    let currentAmbient = null;
+    function playAmbientLoop(url) {
+        if (currentAmbient) {
+            currentAmbient.pause();
+            currentAmbient.currentTime = 0;
+        }
+        const audio = new Audio(url);
+        audio.loop = false;
+        audio.volume = 0.4;
+        audio.play().catch((e) => {
+            console.warn("Ambient playback failed:", e);
+        });
+        currentAmbient = audio;
+    }
+
+    // 👇 Właściwy typing
     let i = 0;
-    const delay = 40;
+    const delay = 60;
     let paused = false;
 
     function typeChar() {
@@ -330,7 +398,6 @@ Break the Loop.
             if (!trigger.triggered && typedSoFar.includes(trigger.keyword)) {
                 trigger.triggered = true;
                 paused = true;
-
                 if (trigger.isSurveillanceStarter) {
                     startSurveillanceLoop();
                 } else {
@@ -340,7 +407,6 @@ Break the Loop.
                         trigger.duration || 5000
                     );
                 }
-
                 setTimeout(() => {
                     paused = false;
                     requestAnimationFrame(typeChar);
@@ -349,12 +415,19 @@ Break the Loop.
             }
         }
 
-        if (i < text.length) {
-            setTimeout(() => requestAnimationFrame(typeChar), delay);
+        for (const audioTrigger of ambientAudioTriggers) {
+            if (!audioTrigger.triggered && typedSoFar.includes(audioTrigger.keyword)) {
+                audioTrigger.triggered = true;
+                playAmbientLoop(audioTrigger.audioUrl);
+            }
         }
+
+        setTimeout(() => requestAnimationFrame(typeChar), delay);
     }
 
-    requestAnimationFrame(typeChar);
+    function startGame() {
+        requestAnimationFrame(typeChar);
+    }
 });
 </script>
 
