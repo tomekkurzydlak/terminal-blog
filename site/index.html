@@ -183,8 +183,16 @@ Break the loop...
             preload: new Image()
         },
         {
-            keyword: "makeshift base in the subway tunnels",
+            keyword: "makeshift base in the subway ",
             gifUrl: "/static/img/enter_the_tunnel.gif",
+            label: "CAM3: BASE",
+            duration: 6000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "hums with jury-rigged",
+            gifUrl: "/static/img/base-8.gif",
             label: "CAM3: BASE",
             duration: 6000,
             triggered: false,
@@ -199,7 +207,7 @@ Break the loop...
             preload: new Image()
         },
         {
-            keyword: "chase one ghost signal",
+            keyword: "servers built from scavenged",
             gifUrl: "/static/img/base2.gif",
             label: "CAM3: BASE",
             duration: 6000,
@@ -207,15 +215,31 @@ Break the loop...
             preload: new Image()
         },
         {
-            keyword: "The terminal flickers—not power fluctuation",
-            gifUrl: "/static/img/cam2.gif",
-            label: "CAM1: YOU",
-            duration: 6000,
+            keyword: "Dr. Sarah Chen's final transmission",
+            gifUrl: "/static/img/final-transm.gif",
+            label: "CAM4: SARAH'S LAB",
+            duration: 20000,
             triggered: false,
             preload: new Image()
         },
         {
-            keyword: "crawling upward like digital ivy",
+            keyword: "Your sister died in the first wave",
+            gifUrl: "/static/img/sarah-death-lr.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "claimed she found AIDEN's weakness",
+            gifUrl: "/static/img/code-ivy.gif",
+            label: "CAM1: YOU",
+            duration: 20000,
+            triggered: false,
+            preload: new Image()
+        },
+        {
+            keyword: "crawling upward like digital",
             gifUrl: "/static/img/marcus2.gif",
             label: "CAM1: YOU",
             duration: 6000,
@@ -223,7 +247,7 @@ Break the loop...
             preload: new Image()
         },
         {
-            keyword: "you've never seen code behave like this",
+            keyword: "you've never seen code behave like",
             gifUrl: "/static/img/marcus3.gif",
             label: "CAM1: YOU",
             duration: 6000,
@@ -256,7 +280,7 @@ Break the loop...
         },
         {
             keyword: "machine sentries pound on reinforced doors.",
-            gifUrl: "/static/img/sarah_lab4.gif",
+            gifUrl: "/static/img/tunnel-cam.gif",
             label: "CAM4: LAB",
             duration: 5000,
             triggered: false,
@@ -264,14 +288,14 @@ Break the loop...
         },
         {
             keyword: "human figures approaching through the tunnels",
-            gifUrl: "/static/img/tunnel-cam.gif",
+            gifUrl: "/static/img/sarah_lab4.gif",
             label: "CAM5: TUNNEL NODE",
             duration: 5000,
             triggered: false,
             preload: new Image()
         },
         {
-            keyword: "Sarah left signals.",
+            keyword: "Sarah died uploading",
             gifUrl: "/static/img/sarah_lab3.gif",
             label: "CAM4: LAB",
             duration: 6000,
@@ -283,14 +307,6 @@ Break the loop...
             keyword: "COMMAND LINE UNLOCKED_",
             isSurveillanceStarter: true,
             triggered: false
-        },
-        {
-            keyword: "Your sister died in the first wave",
-            gifUrl: "/static/img/sarah-death-lr.gif",
-            label: "CAM1: YOU",
-            duration: 20000,
-            triggered: false,
-            preload: new Image()
         }
     ];
 
@@ -303,7 +319,12 @@ Break the loop...
     const ambientAudioTriggers = [
         {
             keyword: "The node",
-            audioUrl: "/static/audio/marcus-echoes.mp3",
+            audioUrl: "/static/audio/marcus-echoes1.mp3",
+            triggered: false
+        },
+        {
+            keyword: "believing the war was over.",
+            audioUrl: "/static/audio/marcus-echoes2.mp3",
             triggered: false
         },
         {
@@ -372,7 +393,7 @@ Break the loop...
         }
         const audio = new Audio(url);
         audio.loop = false;
-        audio.volume = 0.4;
+        audio.volume = 0.5;
         audio.play().catch((e) => {
             console.warn("Ambient playback failed:", e);
         });
@@ -381,7 +402,7 @@ Break the loop...
 
     // 👇 Właściwy typing
     let i = 0;
-    const delay = 60;
+    const delay = 50;
     let paused = false;
 
     function typeChar() {
